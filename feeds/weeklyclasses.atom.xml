@@ -8,7 +8,7 @@
 &lt;p&gt;This post is about how I went about designing this website. My ideas for a potential final project can be found in the &lt;a href="/final-project-proposal.html"&gt;Final Project Proposal&lt;/a&gt; post.&lt;/p&gt;
 &lt;h2&gt;Building a Website&lt;/h2&gt;
 &lt;p&gt;I've not done any web development since I was in high school, coding in raw HTML in notepad, so I had to do quite a bit of research and experimenting to bring myself up to speed.&lt;/p&gt;
-&lt;p&gt;Based on the limitations imposed by the Fab Academy archive (static files only, no database, PHP etc.) I decided that I would try and use a static site generator. There were a &lt;strong&gt;lot&lt;/strong&gt; to chose from. In the end I narrowed my selection down to two:&lt;/p&gt;
+&lt;p&gt;Based on the limitations imposed by the Fab Academy archive (static files only, no database, PHP etc.) I decided that I would try and use a static site generator. There were a &lt;strong&gt;lot&lt;/strong&gt; to choose from. In the end I narrowed my selection down to two:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;a href="http://octopress.org/"&gt;Octopress&lt;/a&gt;: Described as "&lt;em&gt;A blogging framework for hackers&lt;/em&gt;". It's a static site generator based on Jekyll and uses Ruby.&lt;/li&gt;
 &lt;li&gt;&lt;a href="http://docs.getpelican.com/en/"&gt;Pelican&lt;/a&gt;: A static site generator based on Python.&lt;/li&gt;
