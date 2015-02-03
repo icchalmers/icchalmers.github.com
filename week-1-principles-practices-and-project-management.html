@@ -33,6 +33,8 @@
     <link href="http://icchalmers.github.io/theme/css/pygments/native.css" rel="stylesheet">
     <link rel="stylesheet" href="http://icchalmers.github.io/theme/css/style.css" type="text/css"/>
 
+        <link href="http://icchalmers.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Iain Chalmers ATOM Feed"/>
 
 </head>
 <body>
@@ -93,44 +95,44 @@
 <p>This post is about how I went about designing this website. My ideas for a potential final project can be found in the <a href="/final-project-proposal.html">Final Project Proposal</a> post.</p>
 <h2>Building a Website</h2>
 <p>I've not done any web development since I was in high school, coding in raw HTML in notepad, so I had to do quite a bit of research and experimenting to bring myself up to speed.</p>
-<p>Based on the limitations imposed by the Fab Academy archive (static files only, no database, PHP etc) I decided that I would try and use a static site generator. There were a <strong>lot</strong> to chose from. In the end I narrowed my selection down to two:</p>
+<p>Based on the limitations imposed by the Fab Academy archive (static files only, no database, PHP etc.) I decided that I would try and use a static site generator. There were a <strong>lot</strong> to chose from. In the end I narrowed my selection down to two:</p>
 <ol>
 <li><a href="http://octopress.org/">Octopress</a>: Described as "<em>A blogging framework for hackers</em>". It's a static site generator based on Jekyll and uses Ruby.</li>
 <li><a href="http://docs.getpelican.com/en/">Pelican</a>: A static site generator based on Python.</li>
 </ol>
-<p>My main reason for going down the static site generator route was that I could focus on content, leaving a lot of the HTML, CSS and JavaScript production "behind-the-scenes".</p>
-<p>I decided to give Octopress a try first, as it looked to be a more popular option.</p>
+<p>My main reason for going down the static site generator route was that I can focus on content, leaving a lot of the HTML, CSS and JavaScript production "behind-the-scenes".</p>
+<p>I decided to give Octopress a try first, as it looked to be the more popular option.</p>
 <h2>Trying Octopress</h2>
 <blockquote>
 <p>A blogging framework for hackers</p>
 </blockquote>
-<p>Sounds just like what I was looking for! Here's thing thing - I tried setting Octopress up on three different machines, on both Windows and Linux Mint, and had a different set of problems for every install. It was a nightmare. While I do most of my development on Windows, I do jump into Linux sometimes so I wanted a workflow that would work happily across both platforms. On top of that, not being able to get through a "Getting Started" style tutorial without errors, not once but <strong>THREE</strong> times, is usually a sign to move onto something else.</p>
+<p>Sounds just like what I was looking for! Here's the thing - I tried setting Octopress up on three different machines, on both Windows and Linux Mint, and had a different set of problems for every install. It was a nightmare. While I do most of my development on Windows, I do jump into Linux sometimes so I wanted a workflow that would work happily across both platforms. On top of that, not being able to get through a "Getting Started" style tutorial without errors, not once but <strong>THREE</strong> times, is usually a sign to move onto something else.</p>
 <p>Most of the install problems revolved around getting Ruby installed and working correctly. Never having looked at a line of Ruby in my life also wasn't going to help if I did find I had to jump into the source to change something to work how I wanted it.</p>
 <h2>Trying Pelican</h2>
-<p>Pelican was next for evaluation, and thankfully it went a lot better. For starters, I managed to install it on all three of my computers, in both Windows and Linux Mint. I'm also "conversational" in Python, so having an engine written in a language I could make changes in was a big plus.</p>
-<p>Having got a basic site up and running without any issue, I started looking at customisation for my Fab Academy site. Themeing in Pelican is pretty easy - just grab the theme and point to its location in your pelicanconf file. Mobile devices were something I never had to consider back when I was using raw HTML in high school, but I think making a site today that isn't mobile compatible is pretty lazy. <a href="http://getbootstrap.com/">Bootstrap</a> seemed like it was just what I needed, and there was already a Pelican theme based on Bootstrap3: <a href="https://github.com/DandyDev/pelican-bootstrap3">pelican-bootstrap3</a> by <a href="https://github.com/DandyDev">Daan Debie</a>.</p>
+<p>Pelican was next for evaluation, and thankfully it went a lot better. For starters, I've managed to install it on all three of my computers, in both Windows and Linux Mint. I'm also "conversational" in Python, so having an engine written in a language I can make changes in is a big plus.</p>
+<p>Having got a basic site up and running without any issue, I started looking at customisation for my Fab Academy site. Theming in Pelican is pretty easy - just grab the theme and point to its location in your <code>pelicanconf.py</code> file. Mobile devices were something I never had to consider back when I was using raw HTML in high school, but I think making a site today that isn't mobile compatible is pretty lazy. <a href="http://getbootstrap.com/">Bootstrap</a> seemed like it was just what I needed, and there was already a Pelican theme based on Bootstrap3: <a href="https://github.com/DandyDev/pelican-bootstrap3">pelican-bootstrap3</a> by <a href="https://github.com/DandyDev">Daan Debie</a>.</p>
 <p>I'm still working on customising the theme to really get what I want, but it has a lot of really cool feature built in that should "just work". For example:</p>
 <ul>
 <li>My posts <em>should</em> have a comments section using <a href="http://www.disqus.com">Disqus</a> (They work in my local serve of the website. If they work on the Fab Archive will be another matter!).</li>
-<li>I've got buttons for various social networks so that people can Pin, Like and Tweet my articles in one click. It's all done through a service called <a href="http://www.addthis.com/">AddThis</a>.</li>
+<li>I've got buttons for various social networks so that people can +1, Like and Tweet my articles in one click. It's all done through a service called <a href="http://www.addthis.com/">AddThis</a>.</li>
 </ul>
 <p>Some of the features I'm looking to add are:</p>
 <ul>
 <li><a href="http://www.google.com/analytics/">Google Analytics</a>, so that I can keep a track of who (if anyone!) is looking at my site. This should be pretty easy to setup, as the pelican-bootstrap3 theme already has support built it.</li>
-<li>A better navigation menu. I think a navigation menu that sites to the left of the main content works well for Fab Academy style sites, and I would have it collapses to the top for narrow (i.e. mobile) devices. Getting this up and running is involving a bit more customising of the theme than I can mange this week.</li>
+<li>A better navigation menu. I think a navigation menu that sits to the left of the main content works well for Fab Academy style sites, and I would have it collapse to the top for narrow (i.e. mobile) devices. Getting this up and running is involving a bit more customisation of the theme than I can manage this week.</li>
 </ul>
-<p>I'll likely continue to make improvements to the site as the weeks go on. I've only just scratched the surface of web development but I'm really starting to enjoy it. Once I get more familiar with the "how" I can focus on the really hard bit: good design!</p>
+<p>I'll likely continue to make improvements to the site as the weeks go on. I've only just scratched the surface of web development but I'm really starting to enjoy it. Once I get more familiar with the "how" I can focus on the really hard bit: good design.</p>
 <h2>Site Source</h2>
 <p>All of the source for this site is in my BitBucket. Because I forked the <code>pelican-bootstrap3</code> theme to make my own custom version, <code>pelican-bootstrap-fabacademy</code>, it's hosted on my GitHub. I've managed to embed the theme on GitHub <em>inside</em> the Mercurial repo for the site. Probably a terrible idea, but it seems to work quite nicely.</p>
 <ul>
 <li>Get the website source here: <a href="https://bitbucket.org/icchalmers/fabacademy2015_site">https://bitbucket.org/icchalmers/fabacademy2015_site</a></li>
 <li>Get just the theme here: <a href="https://github.com/icchalmers/pelican-bootstrap3-fabacademy">https://github.com/icchalmers/pelican-bootstrap3-fabacademy</a></li>
 </ul>
-<h2>Is a Static Site Generator Worth It?</h2>
+<h2>So, Is A Static Site Generator Worth It?</h2>
 <p>In short, no.</p>
 <p>As with most things in life, <a href="http://xkcd.com/">xkcd</a> explains it better than I can:</p>
 <p align="center">
-<img alt="'Automating' comes from the roots 'auto-' meaning 'self-', and 'mating', meaning 'screwing'." src="http://imgs.xkcd.com/comics/automation.png" />   <img alt="Don't forget the time you spend finding the chart to look up what you save. And the time spent reading this reminder about the time spent. And the time trying to figure out if either of those actually make sense. Remember, every second counts toward your life total, including these right now." src="http://imgs.xkcd.com/comics/is_it_worth_the_time.png" /></p>
+<img alt="'Automating' comes from the roots 'auto-' meaning 'self-', and 'mating', meaning 'screwing'." src="http://imgs.xkcd.com/comics/automation.png" title="'Automating' comes from the roots 'auto-' meaning 'self-', and 'mating', meaning 'screwing'." />   <img alt="Don't forget the time you spend finding the chart to look up what you save. And the time spent reading this reminder about the time spent. And the time trying to figure out if either of those actually make sense. Remember, every second counts toward your life total, including these right now." src="http://imgs.xkcd.com/comics/is_it_worth_the_time.png" /></p>
 <p>Don't get me wrong, static site generators are great, and I especially like Pelican. The main problem is that they are all pretty much geared up for blog-style websites and that's not a format I think works well for a Fab Academy site. The best Fab Academy sites I've seen all have a pretty basic structure:</p>
 <ol>
 <li>An "About Me" page</li>

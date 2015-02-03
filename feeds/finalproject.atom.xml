@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Iain Chalmers</title><link href="http://icchalmers.github.io/" rel="alternate"></link><link href="http://icchalmers.github.io/feeds/finalproject.atom.xml" rel="self"></link><id>http://icchalmers.github.io/</id><updated>2015-02-02T00:00:00+00:00</updated><entry><title>Final Project Proposal</title><link href="http://icchalmers.github.io/final-project-proposal.html" rel="alternate"></link><updated>2015-02-02T00:00:00+00:00</updated><author><name>Iain Chalmers</name></author><id>tag:icchalmers.github.io,2015-02-02:final-project-proposal.html</id><summary type="html">&lt;h2&gt;Word Clock&lt;/h2&gt;
+&lt;p&gt;Some text about the word clock&lt;/p&gt;
+&lt;h2&gt;Catan Table&lt;/h2&gt;
+&lt;p&gt;Text about catan table&lt;/p&gt;
+&lt;h2&gt;Home Automation&lt;/h2&gt;
+&lt;p&gt;Because everyone is doing it&lt;/p&gt;</summary></entry></feed>
