@@ -53,8 +53,8 @@
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
-                    <li><a href="/category/weeklyclasses.html">Weekly Classes</a></li>
-                    <li><a href="/category/finalproject.html">Final Project</a></li>
+                    <li><a href="http://icchalmers.github.io/category/weeklyclasses.html">Weekly Classes</a></li>
+                    <li><a href="http://icchalmers.github.io/category/finalproject.html">Final Project</a></li>
                          <li><a href="http://icchalmers.github.io/pages/about-me.html">
                              About Me
                           </a></li>
@@ -92,33 +92,33 @@
 <p>I've actually got a few potential final projects, and I have no doubt that I'll think of more as the weeks go on. Here's what I've thought of so far.</p>
 <h2>Word Clock</h2>
 <p>For my Mum's Christmas last year I decided I would make her a word clock. It was inspired by <a href="http://imgur.com/a/iMXmj?gallery">this word clock posted on imgur</a>. Here's my version:</p>
-<div style="text-align:center"><img src ="/images/wordClock_v1.jpg" /><br><br></div>
+<div style="text-align:center"><img src ="http://icchalmers.github.io/images/wordClock_v1.jpg" /><br><br></div>
 
 <p>I started thinking about making it in August. It was going to have an app that connected over Bluetooth to set the time (and re-sync the time to the phone automatically when it was in range, <em>obviously</em>...), chose the colour of the LEDs and set alarms. It was going to have a beautiful teak fame (I even took an evening class in woodworking so I could make it). It was going to have a custom PCB I had had made at <a href="https://oshpark.com/">OSH Park</a>, running on an ARM Cortex M0+ (and it certainly was <strong>NOT</strong> going to use two Arduinos or have the kind-of-beautiful but also kind-of-vomit-inducing wiring of the one I was using for inspiration).</p>
 <p>It was going to be <strong>AWESOME</strong>.</p>
 <p>And then I ended up doing all of the work in a panicked two days at the end of December because our FabLab was closing a week earlier than I expected and I <em>obviously</em> hadn't had the time to work on it between August and December...</p>
 <p>But hey, it worked, and my Mum loved it. Take the front off and put it in test mode and it even makes a pretty good disco light.</p>
-<div style="text-align:center"><img src ="/images/insideWordClock_v1.jpg" /><br><br></div>
+<div style="text-align:center"><img src ="http://icchalmers.github.io/images/insideWordClock_v1.jpg" /><br><br></div>
 
 <p>I promised her a revised version "soon". One where she could do all (<strong>cough</strong> <em>some</em> <strong>cough</strong>) of the above. Especially the necessary things like, you know, being able to set the time... (It works for now. It uses a battery backed RTC that shouldn't be off by more than a minute over an entire year. It only has a time resolution of five minutes anyway).</p>
 <h3>However...</h3>
 <p>I feel like it's cheating choosing a final project where I already have a V1.0. Instead, I'll probably do V2.0 development as part of my weekly classes. Maybe add some capacitive touch buttons hidden under the wood, or an ESP8266 to pull network time in over WiFi. Perhaps add a light sensor to automatically control the brightness of the LEDs so they don't blind you at night. Who knows. Time will tell.</p>
 <h2>Light Up Catan Table</h2>
 <p>Forget Monopoly. All it's good for is destroying friendships.</p>
-<div style="text-align:center"><img src ="/images/monopolyFlip.jpg" title="Seriously, don't play it" /><br><br></div>
+<div style="text-align:center"><img src ="http://icchalmers.github.io/images/monopolyFlip.jpg" title="Seriously, don't play it" /><br><br></div>
 
 <p>Instead, play <a href="http://www.catan.com/">Catan</a>. My first impression was "wow this looks super nerdy". Not that there's anything <em>wrong</em> with super nerdy. In actual fact, all the cool kids are playing it - <a href="http://www.washingtonpost.com/blogs/early-lead/wp/2015/01/16/the-green-bay-packers-are-obsessed-with-settlers-of-catan/">even the Green Bay Packers</a> (who may or may not be cool. I have no idea. I hate American football).</p>
-<div style="text-align:center"><img src ="/images/catanBaseBoard.jpg" title="So much more fun. Source: https://garydgardiner.files.wordpress.com/2012/06/settlersofcatan.jpg" /><br><br></div>
+<div style="text-align:center"><img src ="http://icchalmers.github.io/images/catanBaseBoard.jpg" title="So much more fun. Source: https://garydgardiner.files.wordpress.com/2012/06/settlersofcatan.jpg" /><br><br></div>
 
 <p>There is one big problem with Catan though: the board. Over time, those cardboard pieces warp and it becomes <strong>IMPOSSIBLE</strong> to get a flat board that stays together. It also takes <strong>FOREVER</strong> to set up. That picture is just the base game for 3-4 players. Throw in an expansion pack and increase it to 5-6 players and suddenly setting up the board can take almost as long as actually playing.</p>
 <p>Lots of people have tried to solve these problems. The board has been <a href="https://www.kickstarter.com/projects/trammel/the-official-settlers-of-catan-gaming-board">kickstarted</a>, <a href="http://www.iceboxrobotics.com/blog/2012/1/19/settlers-of-catan-3d-game-board.html">3D printed</a> and <a href="http://www.instructables.com/id/Custom-Laser-Cut-Catan-Board/">laser cut</a>. Hell, it's even been <a href="http://www.instructables.com/id/Catan-Cakes/">baked</a>. You could probably complete the entire Fab Academy doing projects based just on the Catan board.</p>
 <p>But I have yet to see a version of Catan that uses the electronic component closest to any electronic engineer's heart: <strong>LEDs</strong>.</p>
 <h3>The Plan</h3>
 <p>The idea is to make a coffee table with embedded RGB LEDs, similar to this one:</p>
-<div style="text-align:center"><a href="http://imgur.com/a/CGV17"><img src ="/images/LEDTable.jpg" title="Pretty damn cool" /></a><br><br></div>
+<div style="text-align:center"><a href="http://imgur.com/a/CGV17"><img src ="http://icchalmers.github.io/images/LEDTable.jpg" title="Pretty damn cool" /></a><br><br></div>
 
 <p>Instead of having a square grid, it would have a hexagonal one. You could automatically generate a game board, or load a favourite one. It could even be linked into an app to allow control of the table/game (app development <em>*shudder*</em>). You would still need the pieces from the original game (no bad thing - with such easy digital fabrication, board game piracy is already becoming a thing), but overall set up time would be reduced and the board would be relatively frustration free. There are a whole host of extra features that I could implement too.</p>
-<p>Obviously there are some glaring challenges from the get go. Making a hexagonal grid would be difficult, and making a table isn't exactly easy. Although there is the "Make Something Big" week, our FabLab doesn't actually have a large format CNC machine. We'll be going to <a href="http://www.maklab.co.uk/">MAKLab</a> to complete that assignment, but something like an LED table would need more time than we have allotted. </p>
+<p>Obviously there are some glaring challenges from the get go. Making a hexagonal grid would be difficult, and making a table isn't exactly easy. Although there is the "Make Something Big" week, our FabLab doesn't actually have a large format CNC machine. We'll be going to <a href="http://www.maklab.co.uk/">MAKLab</a> to complete that assignment, but something like an LED table would need more time than we have allotted. If it comes to it, I could make a smaller, non-table, version.</p>
 <p>Overall though, this is the idea that I'm most excited about, so it's the goal for now. Ask me how I feel about it the day before projects are due.</p>
 <h2>Home Automation</h2>
 <p>I also have some much more ephemeral ideas about home automation. A lovely wireless network of sensors controlling everything I can conceivably think might benefit (or not) from a connection to the internet. The Internet of Things is all the rage right now after all. Does my bin really <em>need</em> to be connected to the internet?! Why the hell not!</p>

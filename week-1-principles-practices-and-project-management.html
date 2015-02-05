@@ -53,8 +53,8 @@
         </div>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
-                    <li><a href="/category/weeklyclasses.html">Weekly Classes</a></li>
-                    <li><a href="/category/finalproject.html">Final Project</a></li>
+                    <li><a href="http://icchalmers.github.io/category/weeklyclasses.html">Weekly Classes</a></li>
+                    <li><a href="http://icchalmers.github.io/category/finalproject.html">Final Project</a></li>
                          <li><a href="http://icchalmers.github.io/pages/about-me.html">
                              About Me
                           </a></li>
@@ -92,7 +92,7 @@
 <li>Build a personal site in the class archive to track my progress through the Fab Academy</li>
 <li>Document some potential final projects</li>
 </ol>
-<p>This post is about how I went about designing this website. My ideas for a potential final project can be found in the <a href="/final-project-proposal.html">Final Project Proposal</a> post.</p>
+<p>This post is about how I went about designing this website. My ideas for a potential final project can be found in the <a href="http://icchalmers.github.io/final-project-proposal.html">Final Project Proposal</a> post.</p>
 <h2>Building a Website</h2>
 <p>I've not done any web development since I was in high school, coding in raw HTML in notepad, so I had to do quite a bit of research and experimenting to bring myself up to speed.</p>
 <p>Based on the limitations imposed by the Fab Academy archive (static files only, no database, PHP etc.) I decided that I would try and use a static site generator. There were a <strong>lot</strong> to choose from. In the end I narrowed my selection down to two:</p>
@@ -142,6 +142,10 @@
 <p>Most importantly, Fab Academy sites have finite content. Let me clarify that: Fab Academy sites have a set number of pages and are only active for a couple of months. This isn't a blog I'll be writing forever and ever. In order to get the structure I wanted, I've basically been taking a hammer to the theme and content templates. And it's still not there. I would have been a lot quicker just setting up some basic temples to make a skeleton site and just filling in the content as I went.</p>
 <p>Ah well. Live and learn. That's pretty much what this whole process is about anyway!</p>
 <p>Now the real test: leave a comment, if they're working :P</p>
+<h2>Update! 2015-02-05</h2>
+<p>So comments worked fine (yay!), but none of my links to internal content worked in the version I had on the Fab Academy archive (I have a test version hosted <a href="http://icchalmers.github.io">on my GitHub</a>). The problem was that on Windows, I couldn’t use the <code>{filename}/path/to/content</code> syntax to link to internal content like images and other pages. Pelican just complained that it couldn't find the files and didn't update the URL.</p>
+<p>The result was that the absolute links I used instead worked fine on a local serve and on my GitHub because my site lived at the domain root i.e. it was at <code>http://icchalmers.github.io/</code> and not a level down such as <code>http://icchalmers.github.io/blog</code>. I had been assuming that having <code>SITEURL = 'http://fabacademy.org/archives/2015/eu/students/chalmers.iain'</code> would cause my “absolute” links to be absolute to <code>SITEURL</code> and not just to fabacademy.org. Oh well...</p>
+<p>So for now, this site can only be reliably generated on <em>*nix</em> systems. My thanks to <a href="https://github.com/avaris">Avaris</a> on the #Pelican IRC channel for his help. We might not have fixed the problem, but it's nice to know there are active developers willing to help. Maybe I'll find the time to try diving into the Pelican source to see if I can fix the problem. It's about time I tried my first ever pull request on an open source project...</p>
             </div>
             <!-- /.entry-content -->
     <hr />

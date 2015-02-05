@@ -5,7 +5,7 @@
 &lt;li&gt;Build a personal site in the class archive to track my progress through the Fab Academy&lt;/li&gt;
 &lt;li&gt;Document some potential final projects&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;This post is about how I went about designing this website. My ideas for a potential final project can be found in the &lt;a href="/final-project-proposal.html"&gt;Final Project Proposal&lt;/a&gt; post.&lt;/p&gt;
+&lt;p&gt;This post is about how I went about designing this website. My ideas for a potential final project can be found in the &lt;a href="http://icchalmers.github.io/final-project-proposal.html"&gt;Final Project Proposal&lt;/a&gt; post.&lt;/p&gt;
 &lt;h2&gt;Building a Website&lt;/h2&gt;
 &lt;p&gt;I've not done any web development since I was in high school, coding in raw HTML in notepad, so I had to do quite a bit of research and experimenting to bring myself up to speed.&lt;/p&gt;
 &lt;p&gt;Based on the limitations imposed by the Fab Academy archive (static files only, no database, PHP etc.) I decided that I would try and use a static site generator. There were a &lt;strong&gt;lot&lt;/strong&gt; to choose from. In the end I narrowed my selection down to two:&lt;/p&gt;
@@ -54,4 +54,8 @@
 &lt;/ol&gt;
 &lt;p&gt;Most importantly, Fab Academy sites have finite content. Let me clarify that: Fab Academy sites have a set number of pages and are only active for a couple of months. This isn't a blog I'll be writing forever and ever. In order to get the structure I wanted, I've basically been taking a hammer to the theme and content templates. And it's still not there. I would have been a lot quicker just setting up some basic temples to make a skeleton site and just filling in the content as I went.&lt;/p&gt;
 &lt;p&gt;Ah well. Live and learn. That's pretty much what this whole process is about anyway!&lt;/p&gt;
-&lt;p&gt;Now the real test: leave a comment, if they're working :P&lt;/p&gt;</summary></entry></feed>
+&lt;p&gt;Now the real test: leave a comment, if they're working :P&lt;/p&gt;
+&lt;h2&gt;Update! 2015-02-05&lt;/h2&gt;
+&lt;p&gt;So comments worked fine (yay!), but none of my links to internal content worked in the version I had on the Fab Academy archive (I have a test version hosted &lt;a href="http://icchalmers.github.io"&gt;on my GitHub&lt;/a&gt;). The problem was that on Windows, I couldn’t use the &lt;code&gt;{filename}/path/to/content&lt;/code&gt; syntax to link to internal content like images and other pages. Pelican just complained that it couldn't find the files and didn't update the URL.&lt;/p&gt;
+&lt;p&gt;The result was that the absolute links I used instead worked fine on a local serve and on my GitHub because my site lived at the domain root i.e. it was at &lt;code&gt;http://icchalmers.github.io/&lt;/code&gt; and not a level down such as &lt;code&gt;http://icchalmers.github.io/blog&lt;/code&gt;. I had been assuming that having &lt;code&gt;SITEURL = 'http://fabacademy.org/archives/2015/eu/students/chalmers.iain'&lt;/code&gt; would cause my “absolute” links to be absolute to &lt;code&gt;SITEURL&lt;/code&gt; and not just to fabacademy.org. Oh well...&lt;/p&gt;
+&lt;p&gt;So for now, this site can only be reliably generated on &lt;em&gt;*nix&lt;/em&gt; systems. My thanks to &lt;a href="https://github.com/avaris"&gt;Avaris&lt;/a&gt; on the #Pelican IRC channel for his help. We might not have fixed the problem, but it's nice to know there are active developers willing to help. Maybe I'll find the time to try diving into the Pelican source to see if I can fix the problem. It's about time I tried my first ever pull request on an open source project...&lt;/p&gt;</summary></entry></feed>
