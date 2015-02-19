@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en"
+>
+<head>
+    <title>Week 3: Computer Controlled Cutting - Iain Chalmers</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link href="http://icchalmers.github.io/images/favicon.ico" rel="icon">
+
+<link rel="canonical" href="http://icchalmers.github.io/week-3-computer-controlled-cutting.html">
+
+        <meta name="author" content="Iain Chalmers" />
+        <meta name="description" content="Design, make and document a press-fit construction kit" />
+
+        <meta property="og:site_name" content="Iain Chalmers" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Week 3: Computer Controlled Cutting"/>
+        <meta property="og:url" content="http://icchalmers.github.io/week-3-computer-controlled-cutting.html"/>
+        <meta property="og:description" content="Design, make and document a press-fit construction kit"/>
+        <meta property="article:published_time" content="2015-02-11" />
+            <meta property="article:section" content="weeklyClasses" />
+            <meta property="article:author" content="Iain Chalmers" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://icchalmers.github.io/theme/css/bootstrap.flatly.min.css" type="text/css"/>
+    <link href="http://icchalmers.github.io/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://icchalmers.github.io/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://icchalmers.github.io/theme/css/style.css" type="text/css"/>
+
+        <link href="http://icchalmers.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Iain Chalmers ATOM Feed"/>
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://icchalmers.github.io/" class="navbar-brand">
+<img src="http://icchalmers.github.io/images/FabLogo.png" width="20"/> Iain Chalmers            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                    <li><a href="http://icchalmers.github.io/category/weeklyclasses.html">Weekly Classes</a></li>
+                    <li><a href="http://icchalmers.github.io/category/finalproject.html">Final Project</a></li>
+                         <li><a href="http://icchalmers.github.io/pages/about-me.html">
+                             About Me
+                          </a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="http://icchalmers.github.io/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://icchalmers.github.io/week-3-computer-controlled-cutting.html"
+                       rel="bookmark"
+                       title="Permalink to Week 3: Computer Controlled Cutting">
+                        Week 3: Computer Controlled Cutting
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                </div>
+                <h2>This Weeks Assignment</h2>
+<p>The assignment for this week was to make a press-fit construction kit. "Press-fit" means that the pieces slot together snugly and hold the parts in place by friction alone.</p>
+<p>As well a press-fit kit of parts that can be put together in different ways, I also cut a press-fit version of the word clock I modeled <a href="http://icchalmers.github.io/week-2-computer-aided-design.html">in Week 2: Computer Aided Design</a> out of cardboard.</p>
+<p>Although not directly part of the assignment, I also followed Neil's advice and gave the Roland vinyl cutter a whirl.</p>
+<p>The press-fit clock and vinyl cutting can be found in my bonus post: <a href="http://icchalmers.github.io/bonus-content-week-35-even-more-computer-controlled-cutting.html">Bonus Content! Week 3.5: Even More Computer Controlled Cutting</a>.</p>
+<h2>Press-fit Construction Kit</h2>
+<p>There were three main steps in making the press-fit construction kit:</p>
+<ol>
+<li>
+<p>Determine the perfect slot width for a good press-fit</p>
+</li>
+<li>
+<p>Design and cut the parts</p>
+</li>
+<li>
+<p>Play with it!</p>
+</li>
+</ol>
+<h3>Finding The Perfect Fit</h3>
+<p>The first step to getting the prefect fit was to measure the kerf of the laser. "Kerf" basically means the width of material burned away by the laser. To get a rough idea of the kerf, I cut out a rectangle split into 5 sections all 10mm square. With our 40W Epilog laser cutter, I found that a vector cut at 30/100/auto (thats 30% speed, 100% power and automatic frequency selection) gave good reliable cuts. I was surprised that the cardboard needed basically the same settings as I've previously used for 3mm plywood! </p>
+<p align="center">
+<img alt="findingKerf" src="http://icchalmers.github.io/images/Week3/measuringCardboardKerf.jpg" title="I lost count of how many times I over tightened the callipers and the squares escaped" /></p>
+<p>If the laser kerf had was zero, you would expect that measuring all 5 squares would come to exactly 50mm. With 5 squares there are is the equivalent of 6 laser widths of material missing (the middle cuts, plus half a width at each end). Doing some quick maths:</p>
+<p>$$kerf = \frac{(50 - 49.01)}{6} = 0.165mm$$</p>
+<p>I decided that since the cardboard was a bit forgiving and would compress, I would round this to 0.2mm. That means reducing slot widths by 0.2mm, or equivalently doing an offset on the entire part outline of 0.1mm.</p>
+<p>Following previous student <a href="http://academy.cba.mit.edu/2013/students/niespielak.anna/study-documentation.html">Anna Niespielak's example</a>, I made a pair of slot rulers for testing the fit.</p>
+<p align="center">
+<img alt="pressFitRuler" src="http://icchalmers.github.io/images/Week3/pressFitTest.jpg" title="Snug as a bug" /></p>
+<p>I found that reducing the slot width by 0.1mm gave a good, but not perfect fit. As expected, the -0.2mm slots gave a nice snug fit. The perfect fit was probably somewhere in between, but I went for the tighter fit. As a compromise, I went for slots that were 0.15mm smaller, but also added tiny little nodules of 0.025mm on each side of the slot. I figured this would give a tight fit, but also allow for some variations in the thickness of the cardboard. </p>
+<h3>Designing The Parts</h3>
+<p>I used Inventor to make the parts, since I'm starting to know just enough about it to be dangerous. I decided to go for a hexagon base part, with some straight and curved connectors. Why hexagons? Because I thought I might as well stick with the Catan theme. The hexagon acts as the master, and the other parts update based on its parameters. The size of the hexagon, the slot depths and (of course) the kerf are all parameterised.</p>
+<p>I cut out a few of each part to verify my design, then cut out a whole sheet of them. A 600 x 300mm sheet took just over 14 minutes to cut, and then another 5 to get all the parts out.</p>
+<p align="center">
+<img alt="pressFitCutting" src="http://icchalmers.github.io/images/Week3/pressFitCutting.jpg" title="14 minutes of praying nothing caught fire" /> <img alt="pressFitParts" src="http://icchalmers.github.io/images/Week3/pressFitParts.jpg" title="Better get the vacuum out" /></p>
+<h3>Play!</h3>
+<p>I hadn't really expect to have so much fun with the kit. Instead of doing my documentation, I got distracted for well over an hour just making different shapes:</p>
+<p align="center">
+<img alt="pressFitShapes" src="http://icchalmers.github.io/images/Week3/pressFitShapes.jpg" title="Because anything is better than writing documentation" /></p>
+<p>My favourite shape was the ball:</p>
+<p align="center">
+<img alt="pressFitBall" src="http://icchalmers.github.io/images/Week3/pressFitBall.jpg" title="I got worrying attached to this little guy" /></p>
+<p>Eventually I settled on keeping the parts in these configurations:</p>
+<p align="center">
+<img alt="pressFitBestShapes" src="http://icchalmers.github.io/images/Week3/pressFitBestShapes.jpg" title="Oddly satisfying" /></p>
+<h2>The Good, The Bad And The Dirty</h2>
+<p>Overall I was <strong>really</strong> impressed with the cardboard. I thought it was going to be rubbish but I can see why Neil was keen for us to give it a try. It's super cheap too, and I can see myself proofing most of my designs in cardboard in the future.</p>
+<p>I was pretty happy with the fit I achieved.</p>
+<p align="center">
+<img alt="pressFitCloseup" src="http://icchalmers.github.io/images/Week3/pressFitCloseup.jpg" title="Solid" /></p>
+<p>However, in hindsight, I probably would have been better going using the -0.1mm slots, or not bothered adding the nodules to the inside of the slots. For slotting single pieces together the fit was excellent, but when it became time to slot multiple pieces together in 3D shapes the fit was tight enough that some of the parts didn't survive being taken apart again.</p>
+<p align="center">
+<img alt="pressFitDeaths" src="http://icchalmers.github.io/images/Week3/pressFitDeaths.jpg" title="Gone but not forgotten" /></p>
+<p>I also realised the parts were a bit more flexible in how they could be put together, as the slots were good for fitting straight onto solid edges too.</p>
+<p align="center">
+<img alt="pressFitNoSlot" src="http://icchalmers.github.io/images/Week3/pressFitNoSlot.jpg" title="Not that I did anything particularly creative with the discovery" /></p>
+<p>The big downside to cutting cardboard with a laser? Carbon. <strong>EVERYWHERE</strong></p>
+<p align="center">
+<img alt="pressFitDirtyHands" src="http://icchalmers.github.io/images/Week3/pressFitDirtyHands.jpg" title="Guess who wiped his face with these hands" /></p>
+<h2>Get The Files</h2>
+<p>As seems to be becoming the norm, file sizes limit what I can add here directly, so you can <a href="https://github.com/icchalmers/PressFitKit">get all the files on my GitHub</a>.</p>
+<p>To keep with the spirit of the archive:</p>
+<ul>
+<li><a href="http://icchalmers.github.io/binaries/SlotRuler.pdf">Here is the press-fit ruler</a> (note that I added the raster labels in CorelDRAW, but they go from left-to-right -0.2 to +0.2mm in 0.1mm increments, as in the picture above)</li>
+<li><a href="http://icchalmers.github.io/binaries/PressFitKitParts.pdf">Here is the component press-fit parts</a></li>
+</ul>
+<p>Both are designed to be cut from 2.5mm cardboard, and the parts use the -0.2mm slot width I've talked about above. Happy press-fitting!</p>
+            </div>
+            <!-- /.entry-content -->
+    <hr />
+    <!-- AddThis Button BEGIN -->
+    <div class="addthis_toolbox addthis_default_style">
+            <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+            <a class="addthis_button_tweet"></a>
+            <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    </div>
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-54ce5fc87a4d9b8a"></script>
+    <!-- AddThis Button END -->
+    <hr/>
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'iainchalmersfabacademy2015'; // required: replace example with your forum shortname
+
+                    var disqus_identifier = 'week-3-computer-controlled-cutting';
+                var disqus_url = 'http://icchalmers.github.io/week-3-computer-controlled-cutting.html';
+
+            var disqus_config = function () {
+                this.language = "en";
+            };
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
+        </article>
+    </section>
+
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2015 Iain Chalmers
+            &middot; Powered by <a href="https://github.com/icchalmers/pelican-bootstrap3-fabacademy" target="_blank">pelican-bootstrap3-fabacademy</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>              <p><small>  <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="//i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" /></a>
+    Content
+  licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution 4.0 International-NonCommercial-ShareAlike License</a>, except where indicated otherwise.
+</small></p>
+         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="http://icchalmers.github.io/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://icchalmers.github.io/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://icchalmers.github.io/theme/js/respond.min.js"></script>
+
+    <!-- Disqus -->
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'iainchalmersfabacademy2015'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+    <!-- End Disqus Code -->
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-59409180-2']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    <!-- End Google Analytics Code -->
+
+</body>
+</html>

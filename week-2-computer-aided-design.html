@@ -86,7 +86,8 @@
             <div class="entry-content">
                 <div class="panel">
                 </div>
-                <h2>This Weeks Assignment</h2>
+                <p><strong>UPDATED 2015-18-04:</strong> I've added a section at the end covering the fully parameterised version of the clock model.</p>
+<h2>This Weeks Assignment</h2>
 <p>The assignment for this week was to model a possible final project. The term "model" is used pretty loosely, meaning draw, render, animate, simulate or pretty much any computer aided design (<strong>CAD</strong>) method to represent the project.</p>
 <p>As I mention in my <a href="http://icchalmers.github.io/final-project-proposal.html">Final Project Proposal</a> page, I've already made V1.0 of a word clock. The files for V1.0 are available <a href="https://github.com/icchalmers/WordClock_v1.0">on my GitHub</a>.</p>
 <p>The original model was made in <a href="http://www.autodesk.co.uk/products/inventor/overview">Autodesk Inventor</a>, which is <a href="http://www.autodesk.com/education/free-software/all">available for free to students</a>. </p>
@@ -132,6 +133,40 @@
 <img alt="Current Progress" src="http://icchalmers.github.io/images/wordClock_v2.0_WorkingFrame2.png" title="...unless you count the fact that I can now make INFINITE VARIATIONS ON A BOX *Jazz hands*" /></p>
 <p>I'm slowly getting the hang of what <strong>not</strong> to do when it comes to parameterising designs. For example, don't constrain new geometry on features that might not exist depending on your parameters... That one took me about <em>two hours</em> to fix. <em>Urgh....</em> (And yes I am well aware that that <em>sounds</em> really obvious, but it's an easy mistake to make!)</p>
 <p>The point I'm at as of the time of writing is <a href="https://github.com/icchalmers/WordClock_v2.0/tree/v0.1">tagged as v0.1 in my GitHub</a>. I fully intend to get this whole damn clock paramterised. I'll add that future <strong>awesome</strong> version to the archive once it exists...</p>
+<h2>Update!</h2>
+<p>So I eventually managed to get most of the model parameterised! The base version of the clock can be completely controlled. The size, number of tabs, number of rows and columns of letters... Pretty much everything that I might want to change, can be. </p>
+<p align="center">
+<img alt="Current Progress" src="http://icchalmers.github.io/images/Week2/wordClock_v2.0_Model.png" title="No support for the LEDs here." /></p>
+<p>There were some snags though...</p>
+<ol>
+<li>
+<p>The LED support structure was experimental, so I didn't try overly hard to parameterise it. As a result, there are two version of the model now.</p>
+<ul>
+<li><a href="https://github.com/icchalmers/WordClock_v2.0/blob/master/Model/wordClock.ipt">wordClock.ipt</a> is the really parameterised version. The downside is that it lacks mounting holes for the electronics and doesn't include the LED strip supports. It also doesn't account for kerf directly.</li>
+<li><a href="https://github.com/icchalmers/WordClock_v2.0/blob/master/Model/SolidifiedClockToMake/wordClock_NonParametric.ipt">wordClock_NonParametric.ipt</a> inlcudes the LED support structure. It also has derived .ipt files for each part, and within each of those parts I've accounted for kerf. I've called it <em>NonParametric</em> but actually a large part of it <strong>is</strong> still parametric. It's just a lot more...<em>flaky</em>.<br><br></li>
+</ul>
+</li>
+<li>
+<p>Inventor is rubbish when it comes to handling the extrusion of text. As a work around, I've marked the construction grid on the front face as exportable and it can be used to align text in Inkspace/CorelDRAW. </p>
+</li>
+<li>
+<p>The .dwg files for laser cutting layout aren't the best. You can't seem to copy a view. You have to re-place the same part over and over. I'm not overly confident in directly sending the files to the laser cutter either, and on top of that I want people without AutoCAD/Inventor to be able to access the final version of files. Instead I've found it best to export the .dwg as PDFs that can be imported to Inkscape/CorelDRAW.</p>
+</li>
+</ol>
+<p>Let's look at the more interesting but less parameterised version in some more detail.</p>
+<h2>A More "Solid" Word Clock Model</h2>
+<p>By solid, I mean that its specs are more locked down. It's set to use 3mm plywood, be 216 x 216 x 60mm and have a character grid of 11 x 11. It's also got some experimental supports added for holding the LED strips in place.</p>
+<p align="center">
+<img alt="Current Progress" src="http://icchalmers.github.io/images/Week2/wordClock_v2.0_NonParametricModel.png" title="This clocks knows who it is." /></p>
+<p>The LED supports are essentially strips of ply that hold the LEDs in place, with the supports being held by some little clips. The clip mechanism looks like this:</p>
+<p align="center">
+<img alt="Current Progress" src="http://icchalmers.github.io/images/Week2/wordClock_v2.0_Model_ClipDetail.png" title="I hope this works..." /></p>
+<p>Basically, the clip slots through, then rotates in the circular hole before being slid to the side to lock it snugly in place. My main concern with the design is that the support pieces will flex too much, and the LED strips in the middle of the clock won't be held tightly in place. If that is the case, I'll cut the supports out of 6mm ply instead. I'm also worried the clips might be a bit thin and prone to snapping. I can thicken them up if needed.</p>
+<p>I've cut this version of the clock out in cardboard. You can read all about it in my <a href="http://icchalmers.github.io/week-3-computer-controlled-cutting.html">Week 3: Computer Controlled Cutting</a> post.</p>
+<h2>Get The Files</h2>
+<p>Inventor files are "large". They're not really. The clock file is only 2MB, but that's large in relation to our limit of only using about 1MB per week for the archive...</p>
+<p>To meet the requirement of having my files in the archive, I'm including the current version (at the time of writing) of the fully parametric model. You can <a href="http://icchalmers.github.io/binaries/wordClock.zip">download it here</a>.</p>
+<p>However, <strong>this version is almost certainly out of date</strong>. I would <strong>highly</strong> recommend you get the latest and greatest, as well as the solidified version of the clock, from <a href="https://github.com/icchalmers/WordClock_v2.0">my GitHub</a>.</p>
             </div>
             <!-- /.entry-content -->
     <hr />
