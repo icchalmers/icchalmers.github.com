@@ -115,6 +115,7 @@
 </li>
 </ol>
 <p>I decided to make the FabTiny*, as it had more features and had an overall more elegant design. I'm not a fan of board edge USB connectors though, as I tend to find them a bit picky about making a good connection. Perhaps I'll make my own variation in the upcoming weeks...</p>
+<p>I followed the <a href="http://fabacademy.org/archives/2015/doc/FabTinyIsp/index.html">FabTiny* Tutorial</a> in the class archive.</p>
 <h2>Milling On The Modela</h2>
 <p>I re-milled a new acrylic sacrificial layer for general use on the Modela and then set up two pieces of FR1 (or it might actually be FR2 - we're not sure!). One as a sacrifice, one for milling the actual board.</p>
 <p>I was a little apprehensive about using the Modela. Our lab has always had trouble with the machine, probably due to some issues with the serial cable. The milling job would start out fine, and then suddenly the machine would go crazy. Luckily, recent updates to the Fab Modules seem to have taken care of that problem.</p>
@@ -167,7 +168,7 @@
 <p align="center">
 <img alt="finishedBoardAngle" src="http://icchalmers.github.io/images/Week4/finishedBoardAngle.jpg" title="Not the best of solder jobs, but functional" /></p>
 <p>This was the first time I had soldered on a PCB like this one, and the first time I had done any 1206 footprints (thats the package size for the resistors and the capacitors). I've got some soldering experience, but it's always been on nice PCBs from fab houses with helpful solder masks. I admit it's not the cleanest of solder jobs but I think that's partly due to the board design (I know, I know. Excuses, excuses). For my own boards I'll make sure that each component has a defined pad i.e. that it's not connecting to one giant copper plane. That should help the surface tension of the solder to pull the solder up around the components, instead of pooling out everywhere. That capacitor at the bottom left of the board is particularly embarrassing.</p>
-<p>After another quick wash (and dry), it was time to program the board. I followed the instructions and everything pretty much worked straight off. The only unexpected part was avrdude warning me that the fuses had changed (which didn't seem to happen in the screenshots from the tutorial). I checked that the new fuses bits were sensible and went ahead and ignored the warning (although notice that the screenshot below was from when I first chickened out and reset them!).</p>
+<p>After another quick wash (and dry), it was time to program the board. I followed the instructions and everything pretty much worked straight off. I used the <a href="http://www.atmel.com/tools/avrispmkii.aspx">AVRISP mkII</a> to do the programming. The only unexpected part was avrdude warning me that the fuses had changed (which didn't seem to happen in the screenshots from the tutorial). I checked that the new fuses bits were sensible and went ahead and ignored the warning (although notice that the screenshot below was from when I first chickened out and reset them!).</p>
 <p align="center">
 <img alt="installFirmware_RescuedFuses" src="http://icchalmers.github.io/images/Week4/installFirmware_RescuedFuses.png" title="" /></p>
 <p>I then plugged the FabTiny* into my USB port, said a quick prayer and....</p>
