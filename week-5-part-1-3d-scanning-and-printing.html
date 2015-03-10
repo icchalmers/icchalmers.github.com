@@ -2,7 +2,7 @@
 <html lang="en"
 >
 <head>
-    <title>Week 5, Part 1: 3D Scanning and Printing - Iain Chalmers</title>
+    <title>Week 5 Part 1: 3D Scanning and Printing - Iain Chalmers</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -18,7 +18,7 @@
 
         <meta property="og:site_name" content="Iain Chalmers" />
         <meta property="og:type" content="article"/>
-        <meta property="og:title" content="Week 5, Part 1: 3D Scanning and Printing"/>
+        <meta property="og:title" content="Week 5 Part 1: 3D Scanning and Printing"/>
         <meta property="og:url" content="http://icchalmers.github.io/week-5-part-1-3d-scanning-and-printing.html"/>
         <meta property="og:description" content="Scanning a broken oven knob on the Modela and printing it"/>
         <meta property="article:published_time" content="2015-02-25" />
@@ -78,8 +78,8 @@
                 <h1>
                     <a href="http://icchalmers.github.io/week-5-part-1-3d-scanning-and-printing.html"
                        rel="bookmark"
-                       title="Permalink to Week 5, Part 1: 3D Scanning and Printing">
-                        Week 5, Part 1: 3D Scanning and Printing
+                       title="Permalink to Week 5 Part 1: 3D Scanning and Printing">
+                        Week 5 Part 1: 3D Scanning and Printing
                     </a>
                 </h1>
             </header>
@@ -87,49 +87,77 @@
                 <div class="panel">
                 </div>
                 <h2>This Weeks Assignment</h2>
-<p>The assign</p>
+<p>The assignment for this week was in two parts:</p>
+<ol>
+<li>Design and 3D print and object that could not be made subtractively</li>
+<li>3D scan an object, and optionally print it.</li>
+</ol>
+<p>Since the <a href="http://icchalmers.github.io/week-2-computer-aided-design.html">word clock</a> model wasn't particularly suited to 3D printing, I decided that I would try scanning, fixing and printing some objects instead.</p>
 <p>This is the final outcome:</p>
 <p align="center">
 <img alt="FinalPrints" src="http://icchalmers.github.io/images/Week5/FinalPrints.jpg" title="Not shown: a lot of waste material" /></p>
-<h2>Test Print</h2>
-<p><p align="center" markdown="1">
-<img alt="TestPrintFailure" src="http://icchalmers.github.io/images/Week5/TestPrintFailure.jpg" title="Comment" />
-</p></p>
-<h2>Scanning On The Modela</h2>
+<p>I'm splitting this weeks documentation into two parts:</p>
+<p><strong>Part 1:</strong> is using the Modela MDX-20 to scan a small broken oven knob and print it. That's this post.</p>
+<p><strong>Part 2:</strong> is using the <a href="http://cubify.com/products/sense">Cubify Sense</a> to scan and print the bust of a person. You can see that post in <a href="http://icchalmers.github.io/week-5-part-2-3d-scanning-and-printing.html">Week 5 Part 2: 3D Scanning and Printing</a>.</p>
+<h2>But First, A Test Print</h2>
+<p>The first thing I did was download the <a href="http://www.thingiverse.com/thing:636363">3D Printer Tolerance Test</a> that Neil mentioned in class. I printed it in PLA on the Replicator 2.</p>
 <p align="center">
-<img alt="GlueToBed" src="http://icchalmers.github.io/images/Week5/GlueToBed.jpg" title="This glue gun is more fabulous than my one" /></p>
+<img alt="TestPrintFailure" src="http://icchalmers.github.io/images/Week5/TestPrintFailure.jpg" title="OK so the word 'print' is maybe a bit strong" /></p>
+<p>Clearly the printer failed that particular test. It looked like the nozzle got clogged, as the printer was still going when I noticed but no plastic was coming out. Even though it failed, it did teach me something: if you have multiple individual parts of an STL, so that it essentially has internal faces, then the printer will respect that. I had assumed that only the outer shell of any model would get printed.</p>
+<p>So a failure, but a useful one. I never bothered trying again. Lots of people in the lab had been having issues with that particular batch of black PLA. Onwards to scanning.</p>
+<h2>Scanning On The Modela</h2>
+<p>The object I wanted to scan was a broken oven knob from my Auntie's oven, with the idea being that I could perhaps print her some new ones. The internal structure is reasonably complex, with some very deep sections that I thought light based scanners would probably struggle with.</p>
 <p align="center">
 <img alt="OvenKnobScanningInside" src="http://icchalmers.github.io/images/Week5/OvenKnobScanningInside.jpg" title="Comment" /></p>
+<p>However, the size and geometry of the knob made it a good candidate for scanning on the Modela. Last year's student James Fletcher has <a href="http://fabacademy.org/archives/2014/students/fletcher.james/week5_group_modela_scan.html">a pretty good overview on scanning with the Modela</a> using the Roland Dr PIXZA software.</p>
+<p>I switched the spindle out for the scanning head, and attached the knob to the scanner bed. Since I didn't have any blu tack handy, and the base of the knob wasn't suitable for double sided tape, I once again resorted to hot glue.</p>
 <p align="center">
-<img alt="DrPICZA" src="http://icchalmers.github.io/images/Week5/DrPICZA.png" title="Comment" /></p>
+<img alt="GlueToBed" src="http://icchalmers.github.io/images/Week5/GlueToBed.jpg" title="This glue gun is more fabulous than my one" /></p>
+<p>After setting the scanning area, these are the main parameters you have to set.</p>
 <p align="center">
-<img alt="OvenKnob1" src="http://icchalmers.github.io/images/Week5/OvenKnob1.jpg" title="Comment" /></p>
+<img alt="DrPICZA" src="http://icchalmers.github.io/images/Week5/DrPICZA.png" title="Everyone loves ambiguous user interfaces!" /></p>
+<p>The <em>X SCAN PITCH</em> and <em>Y SCAN PITCH</em> settings are pretty obvious. For my first scan I went with a very fine 0.1mm for both. The setting that tripped me up was <em>Z BOTTOM</em>. I assumed that the Z limit I was setting was the maximum <strong>height</strong> of the object. It is, in fact, the maximum <strong>depth</strong> of the scan, as offset from the base of the scanner. Not knowing this, I set my scan going and left it for the estimated 12 hours it was going to take. I came back to this:</p>
 <p align="center">
-<img alt="Oven3" src="http://icchalmers.github.io/images/Week5/Oven3.jpg" title="Comment" /></p>
+<img alt="OvenKnob1" src="http://icchalmers.github.io/images/Week5/OvenKnob1.jpg" title="12 hours well spent if you ask me!" /></p>
+<p>At first I thought that the point cloud was so dense that I couldn't make anything out. But no. I had just spent 12 hours scanning the air above the oven knob...</p>
+<p>Having learnt from my mistake, I adjusted the <em>Z BOTTOM</em> value so that I would actually scan the oven knob. Confident it would work, and since I would be leaving it over night anyway, I set the scan resolution to a tiny 0.05mm. 12 hours later I came back, and the scan still had an estimated 80 hours to go...</p>
+<p>The part it had scanned so far looked pretty good though! Being impatient, I killed the scan, set the resolution to a more manageable 0.3mm and 8 hours alter came back to this:</p>
 <p align="center">
-<img alt="OvenKnobFront" src="http://icchalmers.github.io/images/Week5/OvenKnobFront.jpg" title="Comment" /></p>
+<img alt="Oven3" src="http://icchalmers.github.io/images/Week5/Oven3.jpg" title="That's actually pretty cool" /></p>
+<p>After wrestling with the hot glue, I managed to flip the knob over and do a scan of the other side using the same settings.</p>
+<p align="center">
+<img alt="OvenKnobFront" src="http://icchalmers.github.io/images/Week5/OvenKnobFront.jpg" title="It took a total of about 40 hours of scanning to get to this point..." /></p>
+<p>Scans complete, it was time to start playing with the meshes.</p>
 <h2>Combining The Meshes</h2>
+<p>To combine the two meshes into a single object I tried both <a href="http://meshlab.sourceforge.net/">MeshLab</a> and <a href="http://www.meshmixer.com/">MeshMixer</a>.</p>
 <h3>MeshLab</h3>
+<p>I imported the STL files into MeshLab and the results looked pretty good from the get go.</p>
 <p align="center">
-<img alt="MeshLabFrontInternal" src="http://icchalmers.github.io/images/Week5/MeshLabFrontInternal.jpg" title="Comment" /></p>
-<p align="center">
-<img alt="MeshLabFront" src="http://icchalmers.github.io/images/Week5/MeshLabFront.jpg" title="Comment" /></p>
+<img alt="MeshLabFrontInternal" src="http://icchalmers.github.io/images/Week5/MeshLabFrontInternal.jpg" />
+<img alt="MeshLabFront" src="http://icchalmers.github.io/images/Week5/MeshLabFront.jpg" /></p>
+<p>However, I quickly grew to hate MeshLab. It's clearly a very powerful mesh manipulator, but the user interface is <strong>awful</strong> and the documentation is sketchy at best. With great power comes great responsibility (to properly document). I quickly got frustrated and tried MeshMixer instead.</p>
 <h3>MeshMixer</h3>
+<p>I found MeshMixer much more intuitive to use. Pretty quickly, I had my two mesh sections lined up and one Boolean Intersect later, I had a completed oven knob.</p>
 <p align="center">
-<img alt="BooleanIntersect" src="http://icchalmers.github.io/images/Week5/BooleanIntersect.jpg" title="Comment" /></p>
-<p align="center">
-<img alt="BooleanIntersectResult" src="http://icchalmers.github.io/images/Week5/BooleanIntersectResult.jpg" title="Comment" /></p>
+<img alt="BooleanIntersect" src="http://icchalmers.github.io/images/Week5/BooleanIntersect.jpg" title="I won't lie, I lined them up by eye" />
+<img alt="BooleanIntersectResult" src="http://icchalmers.github.io/images/Week5/BooleanIntersectResult.jpg" title="There's no hole there. It's all in your head." /></p>
+<p>The screen captures from above were from a very quick mess around with the software, hence the small hole. I spent some time playing with the mesh alignment and fixed that before heading to the printer.</p>
 <h2>Printing The Oven Knob</h2>
+<p>Even though the scan of the oven knob was still "broken", I thought it would be cool to try and print it out anyway. I fully expected the print to fail due to the walls being so thin but on this occasion I was pleasantly surprised!</p>
 <p align="center">
-<img alt="OvenKnobPrinting" src="http://icchalmers.github.io/images/Week5/OvenKnobPrinting.jpg" title="Comment" /></p>
+<img alt="OvenKnobPrinting" src="http://icchalmers.github.io/images/Week5/OvenKnobPrinting.jpg" title="What do you mean it hasn't failed yet?!" />
+<img alt="OvenKnobFreshOffPrinter" src="http://icchalmers.github.io/images/Week5/OvenKnobFreshOffPrinter.jpg" title="OK so there are some obvious problems with thickness, but that went surprisingly well!" /></p>
+<p>There were some obvious issues with the thickness of the print around the bottom, but overall the process went pretty smoothly. I split the print from its raft and started to (very carefully) clean the support structure from the inside of the part.</p>
 <p align="center">
-<img alt="OvenKnobFreshOffPrinter" src="http://icchalmers.github.io/images/Week5/OvenKnobFreshOffPrinter.jpg" title="Comment" /></p>
+<img alt="OvenKnobPrintedInsideWithSupport" src="http://icchalmers.github.io/images/Week5/OvenKnobPrintedInsideWithSupport.jpg" title="Everyone needs supports at times" /></p>
+<p>In hindsight, I should have printed the knob upside down so that the supports were on the outside. That would have made them a <strong>lot</strong> easier to remove.</p>
+<p>So how well does the copy compare?</p>
 <p align="center">
-<img alt="OvenKnobPrintedInsideWithSupport" src="http://icchalmers.github.io/images/Week5/OvenKnobPrintedInsideWithSupport.jpg" title="Comment" /></p>
-<p align="center">
-<img alt="OvenKnobCompareOutsides" src="http://icchalmers.github.io/images/Week5/OvenKnobCompareOutsides.jpg" title="Comment" /></p>
-<p align="center">
-<img alt="OvenKnobCompareInsidesOverExposed" src="http://icchalmers.github.io/images/Week5/OvenKnobCompareInsidesOverExposed.jpg" title="Comment" /></p>
+<img alt="OvenKnobCompareOutsides" src="http://icchalmers.github.io/images/Week5/OvenKnobCompareOutsides.jpg" title="Not cleaning the kitchen must run in the family" />
+<img alt="OvenKnobCompareInsidesOverExposed" src="http://icchalmers.github.io/images/Week5/OvenKnobCompareInsidesOverExposed.jpg" title="If it wasn't for the fact that one was bright orange, they would be indistinguishable!" /></p>
+<p>The clone is a pretty good match in my opinion. A little more work on the mesh and I think this would have been a really faithful imitation.</p>
+<p>At some point in the future I might try using the mesh as the basis for a new knob that could actually be used on the oven itself. I would essentially fill in the middle part with "solid" plastic, while keeping the bore in the middle for attaching it to the rod that sticks out of the oven. That would probably mean the whole part could be printed without supports, and it would be thicker and more robust to boot.</p>
+<p>But that's for another day. At this point I wanted to get a scan of something more interesting: <strong>me</strong>. Head over to <a href="http://icchalmers.github.io/week-5-part-2-3d-scanning-and-printing.html">Week 5 Part 2: 3D Scanning and Printing</a> to read all about it.</p>
             </div>
             <!-- /.entry-content -->
     <hr />
