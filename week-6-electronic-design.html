@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en"
+>
+<head>
+    <title>Week 6: Electronic Design - Iain Chalmers</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link href="http://icchalmers.github.io/images/favicon.ico" rel="icon">
+
+<link rel="canonical" href="http://icchalmers.github.io/week-6-electronic-design.html">
+
+        <meta name="author" content="Iain Chalmers" />
+        <meta name="description" content="Using KiCad to design a test board for WS2812 LEDs with an ATtiny85" />
+
+        <meta property="og:site_name" content="Iain Chalmers" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Week 6: Electronic Design"/>
+        <meta property="og:url" content="http://icchalmers.github.io/week-6-electronic-design.html"/>
+        <meta property="og:description" content="Using KiCad to design a test board for WS2812 LEDs with an ATtiny85"/>
+        <meta property="article:published_time" content="2015-03-04" />
+            <meta property="article:section" content="weeklyClasses" />
+            <meta property="article:author" content="Iain Chalmers" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://icchalmers.github.io/theme/css/bootstrap.flatly.min.css" type="text/css"/>
+    <link href="http://icchalmers.github.io/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://icchalmers.github.io/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://icchalmers.github.io/theme/css/style.css" type="text/css"/>
+
+        <link href="http://icchalmers.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Iain Chalmers ATOM Feed"/>
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://icchalmers.github.io/" class="navbar-brand">
+<img src="http://icchalmers.github.io/images/FabLogo.png" width="20"/> Iain Chalmers            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                    <li><a href="http://icchalmers.github.io/category/weeklyclasses.html">Weekly Classes</a></li>
+                    <li><a href="http://icchalmers.github.io/category/finalproject.html">Final Project</a></li>
+                         <li><a href="http://icchalmers.github.io/pages/about-me.html">
+                             About Me
+                          </a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="http://icchalmers.github.io/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://icchalmers.github.io/week-6-electronic-design.html"
+                       rel="bookmark"
+                       title="Permalink to Week 6: Electronic Design">
+                        Week 6: Electronic Design
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                </div>
+                <h2>This Weeks Assignment</h2>
+<p>The assignment for this week was to take the <a href="http://academy.cba.mit.edu/classes/embedded_programming/index.html#echo">echo hello-world board</a>, add an LED and a button, verify the design and then make it.</p>
+<p>I thought that was a bit boring so decided to make my own board instead. The idea was to make a board to test the WS2812 LEDs that I'll be using in the <a href="http://icchalmers.github.io/final-project-proposal.html">clock/catan table</a>. I loosely based the design around the <a href="http://icchalmers.github.io/week-4-electronics-production.html">FabTiny*</a>.
+This is the final outcome:</p>
+<p align="center">
+<img alt="flashLED" src="http://icchalmers.github.io/images/Week6/flashLED.gif" title="Because it's not a website until it has a gif" /></p>
+<h2>A New PCB Engraver</h2>
+<p>We have a new toy at Fab Lab Strathclyde. It's a <a href="http://website.denford.ltd.uk/news-menu/117-denford-s-pcb-engraver">Denford PCB Engraver</a>.</p>
+<p align="center">
+<img alt="DenfordPCBEngraver" src="http://icchalmers.github.io/images/Week6/DenfordPCBEngraver.jpg" title="Ooooh fancy!" /></p>
+<p>The machine has some pretty nice features:</p>
+<ol>
+<li>
+<p>The best feature of the machine is that it has a floating head. That means that the copper board doesn't have to be totally level. Instead, the drill depth is set by adjusting the floating head and the pad around the drill bit "floats" over the board to give a constant depth of cut. </p>
+</li>
+<li>
+<p>It's a <strong>lot</strong> faster than the Modela.</p>
+</li>
+<li>
+<p>The spindle can do 20k RPM (as opposed to the 6.5k of the Modela).</p>
+</li>
+<li>
+<p>It has a range of collet sizes, so it's much easier to find mill bits for. I used a 0.4mm end mill for all the circuits in this write up.</p>
+</li>
+<li>
+<p>It comes with software that take in gerber files directly and spits out a compatible CNC file. No more PNGs!</p>
+</li>
+</ol>
+<p>Before making any circuits with the Denford, I ran some simple tests to find the best settings.</p>
+<p align="center">
+<img alt="TestCuts" src="http://icchalmers.github.io/images/Week6/TestCuts.jpg" title="Super complex test cuts" /></p>
+<p>I did a comparison between feed rate, spindle RPM and depth of cut. With the depth set to <strong>just</strong> cut through the copper and no more, the best RPM was in the 16k to 20k range when combined with a feed rate of about 15%. Although some of the squares cut great with feed rates up to 35%, I found that more complex circuits produced a better result when slowed down. 20% was OK, but 10% would be best for really complex PCBs. Somewhere around 15% gives a good starting point to refine from. I actually think the main limitation was the double sided tape I used to stick the boards down. If the tape was stronger, faster rates would be possible.</p>
+<h2>Helping Out A Friend</h2>
+<p>Coincidentally, a mechanical engineering friend of mine needed some help making a little PCB to combine an XBee with a GPS modules. Since it was a super simple design (two through hole modules and a 5V to 3.3V regulator), I put it together quickly in KiCad and used it to test the Denford on a real circuit. The results were pretty good.</p>
+<p align="center">
+<img alt="GPSTraces" src="http://icchalmers.github.io/images/Week6/GPSTraces.jpg" title="It even spot drills the holes for you!" />
+<img alt="GPSThroughHole" src="http://icchalmers.github.io/images/Week6/GPSThroughHole.jpg" title="Even better, forget the spot drill and just drill the holes using the machine!" /></p>
+<p>The only trouble I had was passing a KiCad drill file to the Denford software. For some reason the Denford software seems to expect the drill file to be in a non-standard <a href="http://web.archive.org/web/20071030075236/http://www.excellon.com/manuals/program.htm">Excellon format</a>. However, a bit of playing with the raw files and I managed to convert the KiCad .drl file into something the Denford would accept. This won't be much of an issue for Fab Academy, as basically all of the boards are surface mount anyway.</p>
+<h2>Getting To Grips With KiCad</h2>
+<p>To design the board, I decided to use <a href="http://www.kicad-pcb.org/">KiCad</a>. I went with KiCad over Eagle(http://www.cadsoftusa.com/) because a) it's open source and b) it doesn't have any limitations on board size. With the floating head on the Denford, it should be possible to engrave some really large boards without worrying about how flat the copper is.</p>
+<p>In order to take full advantage of all the latest features in KiCad (such as shove routing - thanks CERN!), I built the latest dev release from source using the handy script on the KiCad website. The install wasn't totally without issue (for some reason on Mint 17.1, some of the dependencies were missing, but I just installed them manually) but I got through it easily enough.</p>
+<p>There are definitely a lot of features missing in KiCad, and the user interface is pretty unintuitive. Some of the things I didn't like:</p>
+<ol>
+<li>
+<p>Wiring a component in the schematic and then moving it is a <strong>mess</strong>. I'm used to the wire handling of something like Simulink, and KiCad is rubbish in comparison.</p>
+</li>
+<li>
+<p>A lot of the documentation and tutorials are for the old "stable" release. In a toss up between support and new features, I went with new features.</p>
+</li>
+<li>
+<p>The user interface is so unintuitive that I found myself having to seek help for basically every single thing I needed to do.</p>
+</li>
+<li>
+<p>The footprint editor is barebones at best. In fact, all of the drawing tools are pretty shocking.</p>
+</li>
+<li>
+<p>PCBnew (the layout part) seems to have different rendering modes, and the functionality between them is completely different. For example, you have to go into OpenGL mode to use the shove routing feature, but in that mode I found that the ratsnest didn't work...</p>
+</li>
+<li>
+<p>The newer dev releases use a new format for footprints and schematic libraries and it's a bit all over the place right now.</p>
+</li>
+</ol>
+<p>To top it all off, the Fab Library for Eagle isn't 100% compatible. I found I could automatically convert most of the schematic symbols but the footprints failed pretty miserably. Instead, I've just been doing my own footprints for parts as I need them.</p>
+<p>OK, rant over. I'm at the stage with KiCad now that I can be productive, but it really is a fickle beast you need to learn to tame. To be fair, my past experience with Eagle wasn't much better. I feel like a lot of the "current" PCB software is stuck in the 90s somewhere...</p>
+<h2>Designing A WS2812 Test Board</h2>
+<p>The schematic for the board is nothing fancy.</p>
+<p align="center">
+<img alt="schematic" src="http://icchalmers.github.io/images/Week6/schematic.png" title="Simples" /></p>
+<p>If you're not familiar with the WS2812 LEDs, they're a really cool little device. Each LED has it's own built in control circuit, and you can chain multiple LEDs together. You send 24-bits of RGB data to the chip, and it does all the PWM to give you the color you want. So, from one microcontroller pin, you can control <strong>THOUSANDS</strong> of RGB LEDs individually. Pretty cool.</p>
+<p>Technically each WS2812 is supposed to have it's own 0.1uF decoupling capacitor, but for a single LED and such a small board and I just used one capacitor for both the tiny85 and the LED.</p>
+<p>(On a side note, the only reason I'm using the 6-pin WS2812S and not the better 4-pin WS2812B is that I got sent them by mistake in an order and got to keep them, so I have a hundred of them to use up!)</p>
+<p>I then made/found footprints for all the components, and exported the netlist to PCBnew to layout the board. This is my final layout. You can see the influence of the FabTiny*.</p>
+<p align="center">
+<img alt="boardLayout" src="http://icchalmers.github.io/images/Week6/boardLayout.png" title="Doing a layout is like doing a puzzle that makes your brain hurt" /></p>
+<p>Since I had made a lot of the footprints myself, I first printed the board out to scale and placed the components on it.</p>
+<p align="center">
+<img alt="paperMistake" src="http://icchalmers.github.io/images/Week6/paperMistake.jpg" title="Can you spot the error?!" /></p>
+<p>It was a good thing I did too. I had accidentally managed to assign the wrong pin numbers to the footprint for my button. I fixed the mistake (and made the board a bit smaller in the process) and printed it out again for a final check.</p>
+<p align="center">
+<img alt="paperFixed" src="http://icchalmers.github.io/images/Week6/paperFixed.jpg" title="Perfect!" /></p>
+<h2>Cutting The Board</h2>
+<p>I exported the gerber and brought it into the Denford software. Even though my board passed a design rule check for a clearance of 0.4mm, the Denford software complained it wouldn't be able to isolate all of the traces (probably due to some tiny mismatch in segmentation). Unhelpfully, it doesn't tell you where. You have to scroll around looking for the problem.</p>
+<p align="center">
+<img alt="unableToCut" src="http://icchalmers.github.io/images/Week6/unableToCut.png" title="Yup, that tiny corner" /></p>
+<p>Although the board would probably have been fine, I adjusted the problem parts and regenerated the gerber. I then sent a few boards to the machine with different settings, but in the end all of them would have been usable. Each board took between 5 and 15 minutes depending on the feed rate.</p>
+<p align="center">
+<img alt="cutBoards" src="http://icchalmers.github.io/images/Week6/cutBoards.jpg" title="I'm never cutting a board on the Modela again" /></p>
+<p>For such a simple circuit outline, it was much quicker to just cut each board out with a band saw. Some light sanding and a wash later, and it was time to solder a board.</p>
+<h2>Another New Toy</h2>
+<p>I lied when I said we got a new toy. We actually got two: the Denford engraver, and a cheapo Chinese reflow oven. I tried applying the solder paste straight from the fridge using the plastic nozzle it came with, and ended up with a bit of a mess.</p>
+<p align="center">
+<img alt="pasteOnBoard" src="http://icchalmers.github.io/images/Week6/pasteOnBoard.jpg" title="I was a bit heavy with the lead paste" /></p>
+<p>For a future week, I'll try laser cutting a solder paste mask from kapton tape. However, for this week I just went ahead and added the components.</p>
+<p align="center">
+<img alt="partsOnBoard" src="http://icchalmers.github.io/images/Week6/partsOnBoard.jpg" title="Yeh I could already tell I was going to do some hand rework" /></p>
+<p>Then it was off into the reflow oven using a profile matched to the paste I was using.</p>
+<p align="center">
+<img alt="intoReflowOven" src="http://icchalmers.github.io/images/Week6/intoReflowOven.jpg" title="Into the jaws of hell" />
+<img alt="reflowProfile" src="http://icchalmers.github.io/images/Week6/reflowProfile.jpg" title="First person to use a cheap Chinese machine designed to heat up? Fire extinguisher at the ready..." /></p>
+<p>On the first reflow attempt, not all of the paste reflowed successfully (probably due to me having <strong>way</strong> too much on). You can clearly see the paste around the LED hasn't gone nice and shiny.</p>
+<p align="center">
+<img alt="firstReflowFail" src="http://icchalmers.github.io/images/Week6/firstReflowFail.jpg" title="Could have done three boards by hand by this point" /></p>
+<p>I took the easy option and just put the whole lot back in for another bake. A bit risky given how temperamental the WS2812s can be with heat, but I had plenty more if I needed a replacement. All of the paste reflowed after a second bake, but my ham fisted application of the paste had resulted in a few solder bridges on the ATtiny and the LED. They were easy to fix with a soldering iron and some wick though.</p>
+<p>Board soldered, it was time to try programming it.</p>
+<h2>Programming The ATtiny85.</h2>
+<p>To program the board, I decided to flash the Arduino bootloader. The main reason was it meant I could use the <a href="https://github.com/adafruit/Adafruit_NeoPixel">Adafruit NeoPixel Library</a> to talk to the WS2812 without writing my own driver.</p>
+<p>To add the ATtiny85 as an option in the Arduino IDE I used the <a href="https://code.google.com/p/arduino-tiny/downloads/detail?name=arduino-tiny-0150-0020.zip">arduino-tiny core</a> and used a FabISP to flash the 16MHz internal PLL bootloader. I also had to set some extra udev rules since I'm using Linux Mint. AS220 has <a href="http://academy.cba.mit.edu/content/tutorials/akf/embedded_programming_arduinoIDE.html">a tutorial</a> thats dead easy to follow if you're running an Ubuntu based distro too.</p>
+<p>Bootloader flashed, I loaded the basic example from the NeoPixel library. The only changes I made were to the number of LEDs (to 1, obviously) and to the pin the WS2812 was on (it's on pin 2 of the tiny85, but thats actually called pin 3 in the Arduino IDE). I uploaded the sketch and...</p>
+<p align="center">
+<img alt="workingBoard" src="http://icchalmers.github.io/images/Week6/workingBoard.jpg" title="A green light of success!" /></p>
+<p>Success! The LED lit up green. Some simple tweaks to the sketch and I had it flashing RGB.</p>
+<p align="center">
+<img alt="flashLED" src="http://icchalmers.github.io/images/Week6/flashLED.gif" title="Because it's not a website until it has a gif" /></p>
+<p>My plan for the board it to use it to test out some different samples that Perspex kindly sent me for free. They have a wide range of different acrylics specifically designed for diffusing LEDs, and I need to find the perfect one for making the Catan table. The WS2812s will need the extra diffusion. These guys are <strong>bright</strong> when on full power! My camera really struggled to capture them, even with a really strong diffuser layer in front.</p>
+<h2>Get The Files</h2>
+<p>For a change, the files are nice and small this week. You can download them directly from here: <a href="http://icchalmers.github.io/binaries/WS2812S_ATtiny45.zip">WS2812S_ATtiny45.zip</a>.</p>
+<p>However, as always, the most up to date files can be found <a href="https://github.com/icchalmers/WS2812S_ATtiny45">on my github</a>.</p>
+            </div>
+            <!-- /.entry-content -->
+    <hr />
+    <!-- AddThis Button BEGIN -->
+    <div class="addthis_toolbox addthis_default_style">
+            <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+            <a class="addthis_button_tweet"></a>
+            <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    </div>
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-54ce5fc87a4d9b8a"></script>
+    <!-- AddThis Button END -->
+    <hr/>
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'iainchalmersfabacademy2015'; // required: replace example with your forum shortname
+
+                    var disqus_identifier = 'week-6-electronic-design';
+                var disqus_url = 'http://icchalmers.github.io/week-6-electronic-design.html';
+
+            var disqus_config = function () {
+                this.language = "en";
+            };
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
+        </article>
+    </section>
+
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2015 Iain Chalmers
+            &middot; Powered by <a href="https://github.com/icchalmers/pelican-bootstrap3-fabacademy" target="_blank">pelican-bootstrap3-fabacademy</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>              <p><small>  <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="//i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" /></a>
+    Content
+  licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution 4.0 International-NonCommercial-ShareAlike License</a>, except where indicated otherwise.
+</small></p>
+         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="http://icchalmers.github.io/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://icchalmers.github.io/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://icchalmers.github.io/theme/js/respond.min.js"></script>
+
+    <!-- Disqus -->
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'iainchalmersfabacademy2015'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+    <!-- End Disqus Code -->
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-59409180-2']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    <!-- End Google Analytics Code -->
+
+</body>
+</html>
