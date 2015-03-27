@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en"
+>
+<head>
+    <title>Bonus Content! Week 7.5: Designing a PSoC 4 Breakout Board - Iain Chalmers</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link href="http://icchalmers.github.io/images/favicon.ico" rel="icon">
+
+<link rel="canonical" href="http://icchalmers.github.io/bonus-content-week-75-designing-a-psoc-4-breakout-board.html">
+
+        <meta name="author" content="Iain Chalmers" />
+        <meta name="description" content="Designing a breakout board/shield for the CY8CKIT-049 4200 dev kit, including making a solder paste mask from a Kapton sheet" />
+
+        <meta property="og:site_name" content="Iain Chalmers" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="Bonus Content! Week 7.5: Designing a PSoC 4 Breakout Board"/>
+        <meta property="og:url" content="http://icchalmers.github.io/bonus-content-week-75-designing-a-psoc-4-breakout-board.html"/>
+        <meta property="og:description" content="Designing a breakout board/shield for the CY8CKIT-049 4200 dev kit, including making a solder paste mask from a Kapton sheet"/>
+        <meta property="article:published_time" content="2015-03-12" />
+            <meta property="article:section" content="weeklyClasses" />
+            <meta property="article:author" content="Iain Chalmers" />
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://icchalmers.github.io/theme/css/bootstrap.flatly.min.css" type="text/css"/>
+    <link href="http://icchalmers.github.io/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://icchalmers.github.io/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://icchalmers.github.io/theme/css/style.css" type="text/css"/>
+
+        <link href="http://icchalmers.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Iain Chalmers ATOM Feed"/>
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://icchalmers.github.io/" class="navbar-brand">
+<img src="http://icchalmers.github.io/images/FabLogo.png" width="20"/> Iain Chalmers            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                    <li><a href="http://icchalmers.github.io/category/weeklyclasses.html">Weekly Classes</a></li>
+                    <li><a href="http://icchalmers.github.io/category/finalproject.html">Final Project</a></li>
+                         <li><a href="http://icchalmers.github.io/pages/about-me.html">
+                             About Me
+                          </a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="http://icchalmers.github.io/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://icchalmers.github.io/bonus-content-week-75-designing-a-psoc-4-breakout-board.html"
+                       rel="bookmark"
+                       title="Permalink to Bonus Content! Week 7.5: Designing a PSoC 4 Breakout Board">
+                        Bonus Content! Week 7.5: Designing a PSoC 4 Breakout Board
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                </div>
+                <h2>Four Birds, One Stone</h2>
+<p>For <a href="http://icchalmers.github.io/week-7-embedded-programming.html">Week7: Embedded Programming</a> I decided to work with the super cheap <a href="http://www.cypress.com/?rID=92146">PSoC 4 CY8CKIT-049 4200 prototyping kit</a>. </p>
+<p align="center">
+<img alt="CY8CKit" src="http://icchalmers.github.io/images/Week7/CY8CKit.jpg" title="source: http://www.cypress.com/?rID=92146" /></p>
+<p>The kit itself is pretty sparse (it basically has an LED and a button), so I designed a breakout board/shield with some more interesting bits and bobs on it to play with.</p>
+<p>Thinking ahead to upcoming assignments, I figured I could make a breakout board that should have me covered for a number of weeks. The features I wanted were:</p>
+<ol>
+<li>
+<p><strong>WS2812 LEDs:</strong> You can read more about these nifty little RGB LEDs in <a href="http://icchalmers.github.io/week-6-electronic-design.html">last weeks post</a>. In particular I wanted to try driving them using the UDBs of the PSoC 4, and they should cover me for "outputs" week.</p>
+</li>
+<li>
+<p><strong>ESP8266:</strong> The <a href="http://www.esp8266.com/">ESP8266</a> is a relatively new device that got makers all hot and bothered when it showed up some time last year. It's basically a super cheap chip/microcontroller for adding WiFi to projects. I picked up a few of the <a href="http://hackerspace.pbworks.com/w/page/88183850/ESP8266">ESP-01 modules</a> from <a href="http://www.aliexpress.com/item/Free-Shipping-2pcs-lot-ESP8266-remote-serial-Port-WIFI-wireless-module-through-walls-Wang-ESP-11/32217368130.html">AliExpress</a> for less than £2 each. I plan on using a few of them as part of "networking" week.</p>
+</li>
+<li>
+<p><strong>Temperature Sensing:</strong> I had a few <a href="http://www.ti.com/product/tmp275">TMP275</a> chips from TI lying about. It's a temperature sensor that works over I2C and has an accuracy of 0.5°C. It should cover me for "inputs" week, and I plan on using one in the Word Clock to keep a track on the heat dissipation of the LEDs.</p>
+</li>
+<li>
+<p><strong>Capacitive Touch Buttons:</strong> Again, these should cover me for "inputs" week, and I plan on adding some to the clock/table too.</p>
+</li>
+</ol>
+<p>So that's Embedded Programming, Inputs, Outputs and Networking all (hopefully) covered using one board.</p>
+<h2>Picking A Power Supply</h2>
+<p>Because most of the devices I planned on adding only worked up to 3.6V, I decided to just run everything at 3.3V (except the LEDs). That meant adding a beefy 3.3V regulator. The ESP8266 can draw a few hundred milliamps so I went with an <a href="http://www.ti.com/product/lp38691">LP38691</a> from TI that I had on hand (3.3V, 500mA, easy capacitor requirements). Power is supplied from a standard USB-mini header (and directly sent as 5V to the LEDs). </p>
+<h2>The Schematic</h2>
+<p>Here's the schematic:</p>
+<p align="center">
+<img alt="schematic_untested" src="http://icchalmers.github.io/images/Week7/schematic_untested.png" title="I had to make most of the parts by hand :(" /></p>
+<p>With the LEDs running at 5V, a 3.3V signal is slightly too low to be reliable as a logic high (5 * 0.7 = 3.5V minimum, based on the <a href="http://www.adafruit.com/datasheets/WS2812B.pdf">datasheet</a>). Although I have used a 3.3V data input in the past, I've seen reports of it causing the occasional error in the LED data stream. There are a number of ways to step up the voltage, but many of them seem to be incapable of handling the data rate. Jez on happyinmotion.com has a fantastic <a href="http://happyinmotion.com/?p=1247">article comparing different level shifters with WS2812 LEDs</a>. I didn't have any of the mentioned chips on hand, but I did have a couple of <a href="http://www.ti.com/product/SN74LVC1T45/description">SN74LVC1T45</a> chips. If you ask TI nicely, they'll send you some free samples. I'm yet to check the signal quality on a scope but the LEDs seem to work fine with it (which is not surprising, seeing at it's rated at 410Mbps and the LEDs work at two orders of magnitude less than that!).</p>
+<h2>Board Layout</h2>
+<p>Schematic complete, I moved onto the board layout.</p>
+<p align="center">
+<img alt="breakoutBoard" src="http://icchalmers.github.io/images/Week7/breakoutBoard.png" title="" /></p>
+<p>Capacitor C12 (10μF) and resistor R2 (10kΩ) can probably be omitted. The capacitor is just to help with the bursty power draw of the WiFi module. The resistor is just a pull-up for the CH_PD pin (chip power-down). 10kΩ is probably a little excessive for a 3.3V pull up but it's an easy value that's in the inventory. I've seen mixed comments online about whether it's really needed or not too. Better to have a place for it and not need it, than need it and not have a place for it.</p>
+<p>Also, note that I didn't <em>quite</em> manage to get a completely single layer layout. A jumper wire is needed to connect the LED ground to the USB ground. It might have been possible to use the multiple ground pins of the dev kit as a sneaky way of accessing ground elsewhere (like I did with the ground of the WiFi module) but I was reluctant to route the possibly high(ish) currents of the LEDs through the dev kit. A jumper wire from the small landing strip at the bottom right of the LEDs to the tab of the regulator was the quickest and simplest solution.</p>
+<h2>A Slight Hiccup</h2>
+<p>Our PCB engraver was out of commission for a few days so as a temporary measure I set up an equivalent circuit on a breadboard. </p>
+<p align="center">
+<img alt="breadboard" src="http://icchalmers.github.io/images/Week7/breadboard.jpg" title="Neil won't like this at all..." /></p>
+<p>Neil might hate breadboards and think that they're useless but in my opinion they're just another tool. Yes, they can become a mess of wires. Yes, the capacitance between tracks is pretty massive. But, for quick prototyping with low-frequency signals (by that I mean analogue signals &lt; 1MHz and digital &lt; 8MHz-ish), they can be a really useful tool. The breadboard worked perfectly and meant I could work on the software while waiting for the PCB engraver to get fixed.</p>
+<h2>Back On Track - Cutting The PCB</h2>
+<p><em>I'm currently in the process of writing a full tutorial on using the Denford. It will probably only be useful to people in our lab, but I'll link to it here when it's ready.</em></p>
+<p>Our lab technician Lindsey lay her healing hand on the Denford PCB Engraver and everything was fixed. Now I could ditch the breadboard and get a PCB cut.</p>
+<p>I opened the Denford PCB Engrave software and imported the gerber for the board. Even though the board passed a design rule check with a clearance of 0.4mm (the diameter of the bit I was using), the Denford software warned of a possible isolation problem.</p>
+<p align="center">
+<img alt="breadboard" src="http://icchalmers.github.io/images/Week7/possibleProblemHighlighted.png" title="If only the software added those markers" /></p>
+<p>Frustratingly, the software doesn't say <em>where</em> the isolation problem might be. I added those nice red circles myself, after scrolling around all the tool paths to see where the isolation issues were. The problem area was around the SOT23-6 package for the SN74LVC1T45 level shifter. Even though the cutter wouldn't pass through the gap, I figured that the diameter of the tool was enough that the copper would still get cut. Thankfully, this turned out to be the case.</p>
+<p>Once again, I had to modify the KiCad drill file to be compatible with the Denford software. The resulting preview shows that the drill hits are all the in the right place.</p>
+<p align="center">
+<img alt="handFixedDrillFile" src="http://icchalmers.github.io/images/Week7/handFixedDrillFile.png" title="Still faster to hand edit the drill file than to drill the holes by hand" /></p>
+<p>Some milling and drilling later, I had a pretty nice looking PCB. The image below was taken before I even de-burred or washed the board. With the PCB cut, it was time to stuff and solder.</p>
+<p align="center">
+<img alt="postCut" src="http://icchalmers.github.io/images/Week7/postCut.jpg" title="No post processing whatsoever" /></p>
+<h2>Experimenting With A Kapton Solder Paste Mask</h2>
+<p>I took the opportunity to try a new method of applying solder paste: laser cutting a stencil out of Kapton. I taped a sheet of Kapton to some sacrificial plywood I had kicking about (although in hindsight, acrylic might have caused less burning around the edges). After playing around with the laser settings (I found that 70/17/5000 worked well for our 40W Epilog) I exported the solder mask from KiCad as an SVG and imported it into CorelDRAW. A grand total of 32 seconds on the laser later, I had a solder mask.</p>
+<p align="center">
+<img alt="weedingKapton" src="http://icchalmers.github.io/images/Week7/weedingKapton.jpg" title="Also good for making tiny confetti" /></p>
+<p>It took a while to remove all the tiny cut-outs, but even the really close cuts like on the pins of the USB connector held their shape really well. The next step was to secure the stencil over the PCB. I just used some masking tape.</p>
+<p align="center">
+<img alt="pasteApplied" src="http://icchalmers.github.io/images/Week7/pasteApplied.jpg" title="A better spreader would have helped" /></p>
+<p>I used an old card as a spreader, and tried to keep the paste as even as possible. I think I could have got a better result by securing the stencil on the same "level" as the PCB. By that I mean use some spare copper clad around the edges of the PCB and stick the masking tape to that, instead of straight to the table. If you look closely in the picture, you can see that the edges of the PCB caused the stencil to bulge slightly in the middle. This resulted in the paste in those areas not having quite as consistent a height or defined outline as the pads near the edges of the board.</p>
+<p>Once the paste was as even as I could get it, I carefully removed the stencil.</p>
+<p align="center">
+<img alt="maskRemoved" src="http://icchalmers.github.io/images/Week7/maskRemoved.jpg" title="Much better than using a syringe" /></p>
+<p>The result was a LOT better than when I tried to apply the paste by hand. The definition around the USB connections wasn't great, but I figured I could clean any bridges up later with a soldering iron. </p>
+<p>Very carefully, I added all the components to the board. The paste is slightly tacky, so it helped to hold the components in place. </p>
+<p align="center">
+<img alt="componentsPlaced" src="http://icchalmers.github.io/images/Week7/componentsPlaced.jpg" title="I think I might have OCD when it comes to checking the orientation of components" /></p>
+<p>I double (and triple) checked that I had all of the components orientated the right way and then gently moved the board to the reflow oven. Because I had had some issues the previous week with not all of the paste reflowing, I used a reflow profile with a slightly higher maximum temperature.</p>
+<p align="center">
+<img alt="intoOven" src="http://icchalmers.github.io/images/Week7/intoOven.jpg" title="This board is a more appropriate size compared to last weeks" /></p>
+<p>Seven minutes later, I had an (almost) perfect board.</p>
+<p align="center">
+<img alt="outOfOven" src="http://icchalmers.github.io/images/Week7/outOfOven.jpg" title="Much better than using a syringe" /></p>
+<p>If you look closely, you can see that the pins of the LEDs and capacitors nearest to the bottom edge still didn't quite reflow properly (the joints are dull, not shiny). I think this was due to the placement of the PCB in relation to the bulbs of the reflow oven. In the future, I'll probably tweak the reflow profile again to try and get a more consistent reflow. As I suspected, the USB connector pins had also bridged. I used the soldering iron to reflow the paste that hadn't quite made it, and then used some solder wick to un-bridge the USB pins. I soldered on the header sockets for the dev kit and ESP-01 by hand too.</p>
+<p>Overall, I think the process went quite well. I probably wouldn't bother doing it for a board with any fewer components on it than this one did though.</p>
+<h2>Programming The Board</h2>
+<p>You can read about how I programmed the board to control the LEDs in the following post:</p>
+<ul>
+<li><a href="http://icchalmers.github.io/week-7-embedded-programming.html">Week7: Embedded Programming</a></li>
+</ul>
+<p>I'll add links to posts about the temperature sensor, capacitive touch buttons and the ESP-01 as I write them.</p>
+<h2>Get The Files</h2>
+<p><strong><span style="color:red">WARNING!</span></strong> Because the breakout board is designed to work at 3.3V, you <strong>CANNOT USE THE CY8CKIT-049 4200 DEVELOPMENT KIT WITHOUT MODIFICATION</strong>. Unmodified, the dev kit is powered directly from the 5V VUSB on the USB-UART. There are a few options:</p>
+<ol>
+<li>
+<p>Unsolder the resettable fuse from the USB-UART (the fat resistor-looking chip between VUSB and R7). This will power everything from the 3.3V regulator. I also used the control panel in the Cypress USB-SDK to tell the USB-UART that it had a 3.3V VUSB, so it could disable it's internal regulator (see all the settings I used below). This is the option I went with. Note that this option only works for a 3.3V supply.</p>
+<p><p align="center" markdown="1">
+<img alt="USBUARTSettings" src="http://icchalmers.github.io/images/Week7/USBUARTSettings.png" title="I actually don't know if this is necessary, but it definitely didn't hurt!" />
+</p></p>
+</li>
+<li>
+<p>Snap the USB-UART board from the main dev kit board. When you want to program the dev kit, remove it from the breakout board, connect it to the USB-UART, program it, disconnect the kit from the USB-UART and then plug the dev kit back into the breakout board. I avoided this route as it would have been a massive waste of time.</p>
+</li>
+<li>
+<p>Break the VDD connection between the boards (either by snapping the USB-UART off and not adding a connection pin for it, or by removing the 0Ω resistor on the dev kit) and then add voltage level translation between the USB-UART and the PSoC 4 RX. The other direction (PSoC 4 TX) doesn't need shifted, as the chip on the USB-UART board can be programmed to accept down to 2V as a logic high when powered at 3.3V.</p>
+</li>
+<li>
+<p>Cut a trace on the under side of the USB-UART, after the VUSB pin of the chip is supplied but before and other power pins are supplied. I <em>think</em> the best place to cut would be on the bottom side of the board, immediately after the via that brings VUSB power to the under side of the board. This would allow the chip to have it's VDD connected to the target device's power so that no voltage translation would be necessary, making it <em>incredibly</em> flexible as a generic USB to UART/I2C/SPI/CapSense/GPIO. I never tried this as I only had one dev kit on hand and if it was a bit too...<em>permanent</em> a test considering I wasn't sure it would definitely work or not!</p>
+</li>
+<li>
+<p>Program the board using the SWI interface and ignore the bootloader entirely. I'm probably going to end up going this route using the PSoC 4 BLE kit I have as the programmer. Partly because it will be useful to have a debugger, but honestly just so that I don't have to bloody power cycle the dev kit while holding the user button in every damn time I want to re-program the board. If you don't have one if the Pioneer kits, you could try <a href="http://www.cypress.com/?id=4&amp;rID=98796">using one CY8CKIT-049 to program another PSoC4</a>.</p>
+</li>
+</ol>
+<p>Now that you've been warned:</p>
+<ul>
+<li><a href="http://icchalmers.github.io/binaries/PSoC4_Breakout.zip">Here</a> are the KiCad files for the breakout board.<ul>
+<li>The board has been verified to work with the LEDs. The temperature sensor, ESP8266 and CapSense features should be considered experimental until I've verified them.</li>
+</ul>
+</li>
+</ul>
+<p>As usual, the files given here might be out of date. The <strong>latest-and-greatest can be found <a href="https://github.com/icchalmers/FabAcademy_PSoC4_Breakout">on my GitHub</a></strong>.</p>
+            </div>
+            <!-- /.entry-content -->
+    <hr />
+    <!-- AddThis Button BEGIN -->
+    <div class="addthis_toolbox addthis_default_style">
+            <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
+            <a class="addthis_button_tweet"></a>
+            <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+    </div>
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-54ce5fc87a4d9b8a"></script>
+    <!-- AddThis Button END -->
+    <hr/>
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'iainchalmersfabacademy2015'; // required: replace example with your forum shortname
+
+                    var disqus_identifier = 'bonus-content-week-75-designing-a-psoc-4-breakout-board';
+                var disqus_url = 'http://icchalmers.github.io/bonus-content-week-75-designing-a-psoc-4-breakout-board.html';
+
+            var disqus_config = function () {
+                this.language = "en";
+            };
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
+        </article>
+    </section>
+
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2015 Iain Chalmers
+            &middot; Powered by <a href="https://github.com/icchalmers/pelican-bootstrap3-fabacademy" target="_blank">pelican-bootstrap3-fabacademy</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>              <p><small>  <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="//i.creativecommons.org/l/by-nc-sa/4.0/80x15.png" /></a>
+    Content
+  licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution 4.0 International-NonCommercial-ShareAlike License</a>, except where indicated otherwise.
+</small></p>
+         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="http://icchalmers.github.io/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://icchalmers.github.io/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://icchalmers.github.io/theme/js/respond.min.js"></script>
+
+    <!-- Disqus -->
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'iainchalmersfabacademy2015'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+    <!-- End Disqus Code -->
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-59409180-2']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    <!-- End Google Analytics Code -->
+
+</body>
+</html>
