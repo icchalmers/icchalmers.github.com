@@ -94,14 +94,14 @@
 <p>I wanted to design a part that was simple and took advantage of the main benefit of casting: one mould can make lots of parts quickly. We regularly use a simple <a href="http://en.wikipedia.org/wiki/Reptiles_(M._C._Escher)">Escher Lizard</a> design to demonstrate cutting acrylic on the laser cutter and I figured it would be a good part for casting. The shape only needs a one-part mould and the tiling effect gets cooler the more lizards you make.</p>
 <p>Instead of messing about trying to make my own version of the Escher Lizard, I just used <a href="http://www.thingiverse.com/thing:737178">_nikola's Escher Lizard Improved redesign on Thingiverse</a>. I imported the stl file into Inventor and used the <a href="https://apps.exchange.autodesk.com/INVNTOR/en/Detail/Index?id=appstore.exchange.autodesk.com:meshenabler:en">Mesh Enabler</a> plugin to convert it into a solid base feature. From there I could use it just like a part I had designed myself in Inventor.</p>
 <h2>Testing The Mould Design</h2>
-<p>I used the Roland MDX-20 with machinable wax to make my positive mould. I fixed the wax to the machine bed using strong double sided tape and used a 4mm slot mill to make the wax flat relative to the tool bit. To mill the positive, I experimented with two different bits: a 3mm bit and a 1mm bit, but bull nosed. </p>
+<p>I used the Roland MDX-20 with machinable wax to make my positive mould. I fixed the wax to the machine bed using strong double sided tape and used a 4mm slot mill to make the wax flat relative to the tool bit. To mill the positive, I experimented with two different bits: a 3mm bit and a 1mm bit, both bull nosed. </p>
 <p align="center">
 <img alt="millingBits" src="http://icchalmers.github.io/images/Week9/millingBits.jpg" title="And I didn't break a single bit" /></p>
 <p>I would have liked to try a flat bit too but we didn't have any that fit the Modela. We only had slot mills, not end mills (i.e. they couldn't be used to plunge) and I wasn't sure how easy it would be to restrict the toolpath to only enter from an edge rather than plunge.</p>
 <p>To start with, I tried using only the 3mm bit for both the roughing pass and the finishing pass. The rough pass took 27m and the finishing pass took 1h15m. Using only the 1mm bit, the roughing pass took 43m and the finishing pass took 1h9m. </p>
 <p align="center">
 <img alt="rough1mmCut" src="http://icchalmers.github.io/images/Week9/rough1mmCut.jpg" title="Ignore the random hole" /></p>
-<p>The lizard on the left has had both a roughing and a finishing pass using the 3mm bit. The lizard on the left has had the roughing pass using the 1mm bit, but is yet to have the finishing pass. I actually thought that the finish on the 3mm lizard was pretty good. Unfortunately the bit was too big to mill the entire lizard (it missed a bit between the right arm and leg), and because of the round end the base of the lizard wasn't totally square (which would cause problems when it came to fitting the lizards together).</p>
+<p>The lizard on the left has had both a roughing and a finishing pass using the 3mm bit. The lizard on the right has had the roughing pass using the 1mm bit, but is yet to have the finishing pass. I actually thought that the finish on the 3mm lizard was pretty good. Unfortunately the bit was too big to mill the entire lizard (it missed a bit between the right arm and leg), and because of the round end the base of the lizard wasn't totally square (which would cause problems when it came to fitting the lizards together).</p>
 <p>I also did a test part that included walls around the lizard for containing the silicone. </p>
 <p align="center">
 <img alt="waxBox" src="http://icchalmers.github.io/images/Week9/waxBox.jpg" title="A smaller part that took longer to machine? No thanks" /></p>
@@ -147,14 +147,14 @@
 <p>To test the mould I started with simple plaster, specifically <a href="http://www.mbfg.co.uk/casting-plaster/fine-casting-plaster-plus.html">Polycraft Formula Fine Casting Plaster Plus</a>, because it's super cheap.</p>
 <p align="center">
 <img alt="plasterPacket" src="http://icchalmers.github.io/images/Week9/plasterPacket.jpg" title="I wonder how many lizards I could make if I used it all?" /></p>
-<p>I mixed the plaster using the ratio implied on the box, which stated <em>"Water to Plaster Ratio (by weight) is 100:70"</em>. I thought that was a bit odd to have more water than plaster but decided to go with it.</p>
+<p>I mixed the plaster using the ratio implied on the box, which stated <em>"Water to Plaster Ratio (by weight) is 100:70"</em>. I thought that it was a bit odd to have more water than plaster but decided to go with it.</p>
 <p align="center">
 <img alt="firstPlasterLizards" src="http://icchalmers.github.io/images/Week9/firstPlasterLizards.jpg" title="'This plaster is too thin!' said Goldilocks" /></p>
 <p>The plaster was way too thin and took forever to cure. As you can see in the picture above, I ended up only getting one of the three lizards out in tact. Instead of 100:70, I experimented a bit and found that a ratio of 1:1 by weight gave much better results (both in terms of consistency and setting time). I have since looked at the website for the plaster where it states that it's actually  100 parts plaster to 70 parts water... Damn that stupid label! </p>
 <p>I set about casting lots of lizards.</p>
 <p align="center">
 <img alt="castingPlasterLizards" src="http://icchalmers.github.io/images/Week9/castingPlasterLizards.jpg" title="'This plaster is just right!'" /></p>
-<p>With the 1:1 ratio, I was still only managing to get 2 out of 3 lizards out of the mould without breaking off any limbs. By the time it came to trying to fit all the lizards together, I mas only keeping about 1 in 3 lizards in tact! It's a shame these lizards aren't the type that can grow back missing body parts.</p>
+<p>With the 1:1 ratio, I was still only managing to get 2 out of 3 lizards out of the mould without breaking off any limbs. By the time it came to trying to fit all the lizards together, I mas only keeping about 1 in 3 lizards in tact. It's a shame these lizards aren't the type that can grow back missing body parts.</p>
 <p align="center">
 <img alt="plasterLizardsTiled" src="http://icchalmers.github.io/images/Week9/plasterLizardsTiled.jpg" title="Lizards can grow their limbs back anyway" /></p>
 <p>If I was going to stick with plaster, I would increase the size of the lizards and tweak the model a bit to remove sharp edges. As it was, I had wilfully ignored the mill diameter/corner routing problem (round mills can't make sharp internal angles). The result was that the very fine points like on the tail had to be pushed with a bit of force into the slightly rounded recess between another lizard's arm and leg. Plaster + force = broken lizards.</p>
@@ -169,7 +169,7 @@
 <h2>Final Thoughts</h2>
 <p>I might have kept it simple this week, but I certainly learned a lot. As with most of the Fab Academy topics, one week is nowhere near long enough to really get to grips with a new process. Some final thoughts:</p>
 <ul>
-<li>Designing even a mould for even a simple part takes a lot of thought</li>
+<li>Designing a mould for even a simple part takes a lot of thought</li>
 <li>Keep your final material in mind when designing the mould</li>
 <li>Having a vacuum chamber would make things much easier</li>
 </ul>
