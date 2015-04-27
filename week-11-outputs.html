@@ -177,7 +177,7 @@
 <p>It turns out that my god like soldering was slightly more human after all. In the process of soldering the jumper wires I had managed to rip up the trace going to the via in the top left of the board (the one that takes GND to the chip). A quick solder rework later and I had a custom PSoC 4 board with a flashing LED that I could program <strong>AND DEBUG</strong>!</p>
 <p>Hard bit over it was time to get the LCD running.</p>
 <h2>Hello World!</h2>
-<p>I added the <em>Character LCD</em> component to my design (essentially adding a nice library to my program), specified the port the LCD was on and programmed the board.</p>
+<p>I added the <em>CharLCD</em> component to my design (essentially adding a nice library to my program), specified the port the LCD was on and programmed the board.</p>
 <p>Nothing. <strong>Again</strong>.</p>
 <p>I was a little suspicious of the 100kΩ and 1kΩ resistor divider Neil had used (the datasheet for the display stated a variable resister of around 10kΩ). To check, I wired a 10K potentiometer on a breadboard, connected it to Vo of the LCD and tried again.</p>
 <p align="center">

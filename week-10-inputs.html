@@ -90,21 +90,96 @@
 <p>The requirements for this week were very broad: add a sensor to a board you designed and measure it.</p>
 <p>Although Neil was keen for us to make a whole new set of boards, I haven't had a chance to actually use my <a href="http://icchalmers.github.io/bonus-content-week-75-designing-a-psoc-4-breakout-board.html">PSoC 4 Breakout Board</a> yet so I'll be using it. I'll be experimenting with two inputs:</p>
 <ul>
-<li>Capcaitive buttons, using the inbuilt CapSense functionality of the PSoC 4</li>
+<li>Capacitive buttons, using the inbuilt CapSense functionality of the PSoC 4</li>
 <li>Temperature, using the I2C based <a href="http://www.ti.com/product/tmp275">TMP275 temperature sensor</a> from Texas Instruments</li>
 </ul>
 <p>Here's a video of the final program running on the board.</p>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/Ggi41C0hhA8" frameborder="0" allowfullscreen></iframe>
 
+<h2>What's It Going To Do?</h2>
+<p>My idea was pretty simple. In one state, I wanted to have a rainbow pattern running on the LEDs and be able to change the speed of the pattern using the capacitive buttons. In another state, I wanted to visualise the current temperature on the LEDS. The maximum and minimum temperatures would be continuously updated and the LEDs would shift from blue to red based on the current temperature relative to the historic range.</p>
+<p>To start with, I wrote mini proof-of-concept programs for each of the two states. I then integrated them using a mini state machine.</p>
 <h2>Capacitive Buttons</h2>
 <p>During the design of the breakout board, I read through the two Cypress application notes:</p>
 <ul>
 <li><a href="http://www.cypress.com/?docID=50002">AN64846 - Getting Started with Capsense</a></li>
 <li><a href="http://www.cypress.com/?rID=78578&amp;source=an79953">AN85951 - PSoC 4 CapSense Design Guide</a></li>
 </ul>
-<p>There's quite a bit of overlap between the two. A large chunk of both documents deals with PCB layout and advanced component settings. The PSoC Creator examples projects give a better starting point for the software design. There are no examples for CapSense buttons but the <em>CapSense_CSD_P4_Design</em> example project gives the basic bare bones of how to use the CapSense component. I started a new project with the aim of turning on an LED while one of the buttons was pressed.</p>
+<p>There's quite a bit of overlap between the two. A large chunk of both documents deals with PCB layout and advanced component settings. The PSoC Creator example projects give a better starting point for the software design. There are no examples for CapSense buttons but the <em>CapSense_CSD_P4_Design</em> example project gives the basic bare bones of how to use the CapSense component. I started a new project with the aim of turning on an LED while one of the buttons was pressed.</p>
 <p>It worked. First time. Flawlessly. </p>
 <p>I was pretty surprised. I had thought I was going to do all kinds of manual tuning to get the buttons to work, but the SmartSense auto tuning seemed to take care of it all. </p>
+<p>One big downside to the capacitive buttons is that you essentially have to poll them. I think they would work great in an RTOS based system but it's OK using them in an OS free program as long as you take care about the update rates. I did notice that button presses while in the temperature sensing state were a bit unresponsive, which was almost certainly due to the 250ms delay in the function.</p>
+<p>I made a little function to handle updating the button state, just to keep the code more readable:</p>
+<div class="highlight"><pre><span class="kt">void</span> <span class="nf">CapSense_Update</span><span class="p">(){</span>
+    <span class="n">CapSense_UpdateEnabledBaselines</span><span class="p">();</span>
+    <span class="n">CapSense_ScanEnabledWidgets</span><span class="p">();</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">CapSense_IsBusy</span><span class="p">());</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>In my design, the <code>CapSense_Update()</code> function gets called before each state gets handled. Using some handy macros, I can then check the state of each capacitive button and react accordingly. </p>
+<h2>TMP275 Temperature Sensor</h2>
+<p>I want to have a temperature sensor inside the word clock so that if things start getting a bit too hot I can reduce the brightness. Lower brightness means less current which means less heat, hopefully resulting in a longer life for the LEDs.</p>
+<p>The <a href="http://www.ti.com/product/tmp275">TMP275</a> is a digital sensor. Instead of reading an analogue voltage and then translating the voltage level to a temperature (as would be required for the sensors that are in the Fab inventory), the chip performs the conversion and stores the result in memory. The memory of the chip, which controls parameters such as conversion accuracy and the last temperature measurement, can then be accessed on an I2C bus. You can have multiple slaves on a single bus, all controlled by one master. In this case the temperature sensor is the slave and the PSoC is the master. The I2C bus means that you can communicate to multiple different devices using only 2 pins (plus ground).</p>
+<p>I went with the TMP275 simply because I had some free samples from TI. ±0.5°C with 12 bits of resolution is way more accurate than I actually need! The <a href="http://www.ti.com/product/tmp75b/description">TMP75B</a> would be cheaper and work just fine. I'm pretty sure they're code and pin compatible (but don't quote me on that!) so if I ever need to make a lot of boards I should be able to simply swap in the cheaper part.</p>
+<p>My code for handling the temperature sensor is all pretty self explanatory. One nifty trick I'll talk about is using a <a href="http://en.wikipedia.org/wiki/Union_type">union</a> to store the temperature read from the sensor. A union basically allows you to access the same space in memory while treating it as different variable types. Here's my union definition:</p>
+<div class="highlight"><pre><span class="k">typedef</span> <span class="k">union</span> <span class="n">TMP275_temperature</span><span class="p">{</span>
+    <span class="kt">uint8_t</span> <span class="n">byte</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+    <span class="kt">int16_t</span> <span class="n">word</span><span class="p">;</span>
+<span class="p">}</span><span class="n">TMP275_TEMPERATURE</span><span class="p">;</span>
+</pre></div>
+
+
+<p>This basically makes a new variable type called <code>TMP275_TMPERATURE</code>. Any variable declared as a <code>TMP275_TMPERATURE</code> can be accessed in two ways:</p>
+<ol>
+<li>As an array of two unsigned 8-bit bytes</li>
+<li>As a single signed 16-bit integer.</li>
+</ol>
+<p>There are a few reasons to do this. The first is that the I2C memory reads are done as 8-bit bytes at a time and the TMP275 returns either 9 or 12 bits of data i.e. two I2C reads are needed. The second is that the top 8 bits of the data returned by the TMP275 are whole degrees, and the remaining bits are fractions of a degree. </p>
+<p>The benefit is easier to see with an example. Instead of doing something like this:</p>
+<div class="highlight"><pre><span class="n">tempUnits</span> <span class="o">=</span> <span class="n">I2C_read</span><span class="p">(</span><span class="n">TemperatureUnits</span><span class="p">);</span>
+<span class="n">tempFraction</span> <span class="o">=</span> <span class="n">I2C_read</span><span class="p">(</span><span class="n">TemperatureFraction</span><span class="p">);</span>
+<span class="n">temperature</span> <span class="o">=</span> <span class="p">(</span><span class="n">tempUnits</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span><span class="p">)</span> <span class="o">|</span> <span class="n">tempFraction</span><span class="p">;</span>
+</pre></div>
+
+
+<p>we can instead do something like this:</p>
+<div class="highlight"><pre><span class="n">currentTemperature</span><span class="p">.</span><span class="n">byte</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">I2C_read</span><span class="p">(</span><span class="n">TemperatureUnits</span><span class="p">);</span>
+<span class="n">currentTmperature</span><span class="p">.</span><span class="n">byte</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">I2C_read</span><span class="p">(</span><span class="n">TemperatureFraction</span><span class="p">);</span>
+</pre></div>
+
+
+<p>Note that this is pseudocode, not actual code!</p>
+<p>First off, we've saved having to make some temporary variables and then do some bit shifts and masks to end up with our 16-bit value. Second, we now have the benefit of accessing the temperature as just the whole part, just the fractional part or as a full 16-bit value.</p>
+<div class="highlight"><pre><span class="n">wholeDegrees</span> <span class="o">=</span> <span class="n">currentTemperature</span><span class="p">.</span><span class="n">byte</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+<span class="n">fractionsOfADegree</span> <span class="o">=</span> <span class="n">currentTemperature</span><span class="p">.</span><span class="n">byte</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="n">maxTemperature</span> <span class="o">=</span> <span class="n">currentTemperature</span><span class="p">.</span><span class="n">word</span><span class="p">;</span>
+</pre></div>
+
+
+<p>I think that's pretty nifty. One word of caution: make sure you know the <a href="http://en.wikipedia.org/wiki/Endianness">endianness</a> of the processor you want to compile unions for. Otherwise you can get yourself into a pretty horrible mess! The PSoC 4 is little-endian, so the least significant byte is stored in the smallest address.</p>
+<h2>State Machines in C</h2>
+<p>I've never actually written a <a href="http://en.wikipedia.org/wiki/Finite-state_machine">state machine</a> in C before - I've only ever implemented one on an FPGA in Verilog/VHDL. I based my implementation on <a href="http://codeandlife.com/2013/10/06/tutorial-state-machines-with-c-callbacks/">this great article by Joonas Pihlajamaa</a> about implementing state machines using function pointers. In my case the state machine is a bit trivial (it only has two states after all!) but writing it in this way makes it quite easy to expand and add more states later. </p>
+<p>To give you an idea of the flexibility, here is all of the code in my <code>main()</code>:</p>
+<div class="highlight"><pre><span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
+    <span class="n">stateFunction</span> <span class="n">currentState</span> <span class="o">=</span> <span class="n">State_Rainbow</span><span class="p">;</span>
+
+    <span class="n">Init</span><span class="p">();</span>  
+    <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">){</span>
+        <span class="n">CapSense_Update</span><span class="p">();</span>
+        <span class="n">currentState</span> <span class="o">=</span> <span class="p">(</span><span class="n">stateFunction</span><span class="p">)(</span><span class="o">*</span><span class="n">currentState</span><span class="p">)();</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>The basic idea is that you have a function for each of the states you want. In my case, these are <code>State_Rainbow()</code> and <code>State_Temperature()</code>. Each of these functions performs the actions associated with that state e.g. the <code>State_Rainbow()</code> function updates the rainbow pattern on the LEDs. When a state is finished, it returns a pointer to the next state. </p>
+<p>Ideally I would have liked to abstract out the state transitions to be a separate function. That would make complex state machines easier to debug, adapt and maintain. However, that was definitely going above and beyond what was necessary for this week!</p>
+<h2>Get The Files</h2>
+<p>No GitHub this week. You can get a zip of PSoC Creator project <a href="http://icchalmers.github.io/binaries/wk10_Inputs.zip">here</a>.</p>
             </div>
             <!-- /.entry-content -->
     <hr />
