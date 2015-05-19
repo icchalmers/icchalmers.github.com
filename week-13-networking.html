@@ -86,17 +86,17 @@
             <div class="entry-content">
                 <div class="panel">
                 </div>
-                <h2>This Weeks Assignment</h2>
+                <h2>This Week's Assignment</h2>
 <p>This week's assignment was to design and build a wired and/or wireless network connecting at least two processors.</p>
 <p>I decided to do both. I made a wireless module for the <a href="http://icchalmers.github.io/week-11-outputs.html">character LCD board I made for Outputs week</a>. The module uses an <a href="http://www.esp8266.com/">ESP8266 WiFi module</a> to receive commands from the local network and then writes strings to the LCD board using I2C.</p>
 <p>Here's the final result:</p>
 <p align="center">
 <img alt="wirelessScreen" src="http://icchalmers.github.io/images/Week13/wirelessScreen.jpg" title="I swear the USB cable is just for power" /></p>
 <h2>Designing The Board</h2>
-<p>The board I designed this week is made to plug into the LCD character display board I made. The targets for the design were:</p>
+<p>The board I designed this week is made to plug into my LCD character display board. The targets for the design were:</p>
 <ul>
 <li>Use an ESP-03 module (as that's the SMD version I happened to have to hand)</li>
-<li>Must regulate the 5V of the LCD board to 3.3V for the ESP8266</li>
+<li>Regulate the 5V of the LCD board to 3.3V for the ESP8266</li>
 <li>Use I2C to communicate between the LCD board and the WiFi board</li>
 <li>Have an onboard LED for debug</li>
 <li>Have a switch to control booting the ESP8266 into programming mode</li>
@@ -139,7 +139,7 @@
 <h2>Putting It All Together</h2>
 <p>The current implementation is pretty basic, but still shows the overall workflow for WiFi and I2C (which is all that's really necessary for this week). Here's the screen in action, although you'll just have to trust me that this actually functions and isn't just an elaborate scam.</p>
 <p align="center">
-<img alt="wirelessScreen" src="http://icchalmers.github.io/images/Week13/wirelessScreen.jpg" title="You'll just have to trust me that this isn't faked" /></p>
+<img alt="wirelessScreen" src="http://icchalmers.github.io/images/Week13/wirelessScreen.jpg" title="I'm a trustworthy guy. Honest." /></p>
 <p>The generic hardware has a lot of potential. One nice idea I have for the setup would be to have the ESP8266 access the web API for the software we use for booking out the machines in our lab. That way a display could be used to show the upcoming bookings for each machines.</p>
 <h2>Get The Files</h2>
 <p>I flat out admit that the code isn't exactly what I would call pretty (especially the code for the ESP8266!). It is functional though. If any potential future employer could pretend the code below doesn't exist, that would be great.</p>
