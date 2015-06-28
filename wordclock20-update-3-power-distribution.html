@@ -88,35 +88,50 @@
             <div class="entry-content">
                 <div class="panel">
                 </div>
-                <h2>Text to follow...</h2>
+                <h2>Wires Wires Everywhere</h2>
+<p>This is what the inside of WordClock1.0 looked like:</p>
 <p align="center">
 <img alt="wordClock1.0_internal" src="http://icchalmers.github.io/images/FinalProject/wordClock1.0_internal.jpg" title="" /></p>
+<p>It took <strong>forever</strong> to wire all the LEDs, and the duct tape/glue to hold them in place was a mess. To make life easier for myself, I set about designing some power and signal distribution boards.</p>
+<h2>Power Distribution Boards</h2>
+<p>As a quick sanity check, I did a trace layout on paper with some of the LED strips.</p>
 <p align="center">
 <img alt="powerDistribution_PaperProof" src="http://icchalmers.github.io/images/FinalProject/powerDistribution_PaperProof.jpg" title="" /></p>
+<p>After that, it was back to KiCAD. I made sure to layout the schematic in such a way that it pretty much translated directly to the PCB layout.</p>
 <p align="center">
 <img alt="powerDistributionSchematic" src="http://icchalmers.github.io/images/FinalProject/powerDistributionSchematic.png" title="" /></p>
+<p>What's nice about the design is that it's symmetrical: you can just cut two of the same board and use one for power and one for ground.</p>
 <p align="center">
 <img alt="powerDistributionLayoutSingle" src="http://icchalmers.github.io/images/FinalProject/powerDistributionLayoutSingle.png" title="" /></p>
+<p>As always, I printed the PCB out on paper first and made sure it looked sensible using the <a href="http://icchalmers.github.io/bonus-content-week-35-even-more-computer-controlled-cutting.html">cardboard word clock</a>. The eagle eyed amongst you will notice that the paper print out in the photo below doesn't have the mounting holes. Spotting that mistake on paper saved me a lot of time!</p>
+<p>One other minor mistake was that I forgot to add a footprint for adding a nice big 1000µF capacitor as a local power source for the LEDs. Luckily I don't seem to need it, but I've already updated the PCB to have a space for one just in case. </p>
 <p align="center">
 <img alt="powerDistribution_PaperRail" src="http://icchalmers.github.io/images/FinalProject/powerDistribution_PaperRail.jpg" title="" /></p>
+<p>Happy with the design, I milled a pair of boards on the Denford. This is a board that really shows how great the Denford is compared to the Modela. Not only would the board not have fit on the Modela bed, but I imagine that doing a board this long would be a <strong>nightmare</strong> for getting a consistent cut depth on the copper. Yay for floating heads!</p>
+<p>With the boards milled, I started soldering the LED strips onto the boards, checking that everything was working every couple of strands.</p>
 <p align="center">
+<img alt="powerDistribution_Soldering" src="http://icchalmers.github.io/images/FinalProject/powerDistribution_Soldering.jpg" title="" />
 <img alt="powerDistribution_SolderTestingf" src="http://icchalmers.github.io/images/FinalProject/powerDistribution_SolderTesting.jpg" title="" /></p>
-<p align="center">
-<img alt="powerDistribution_Soldering" src="http://icchalmers.github.io/images/FinalProject/powerDistribution_Soldering.jpg" title="" /></p>
-<p align="center">
-<img alt="controlBoardLayout" src="http://icchalmers.github.io/images/FinalProject/controlBoardLayout.png" title="" /></p>
+<p>An added benefit of the power distribution boards is that they also act as clamps that hold the LEDs in place. That's two problems fixed with one elegant solution!</p>
+<h2>Cutting Another Control PCB</h2>
+<p>It was at this point that I had a better idea of where I wanted to mount the control PCB, so I cut a couple of new boards that had mounting holes in the right place.</p>
 <p align="center">
 <img alt="controlBoard2.0_JustCut" src="http://icchalmers.github.io/images/FinalProject/controlBoard2.0_JustCut.jpg" title="" /></p>
+<p>Before soldering everything up, I did a dry-run and made sure that everything fit together properly.</p>
 <p align="center">
 <img alt="wordClock2.0_InteriorControlBoardMountingTest" src="http://icchalmers.github.io/images/FinalProject/wordClock2.0_InteriorControlBoardMountingTest.jpg" title="" /></p>
+<p>In it's current iteration, I have to use some stand-offs to mount the control PCB above the central support strip. In the near future (but after Fab Academy is finished), I plan on getting rid of the central support in favour of two supports that would line up with the mounting holes on the PCB. That would save me a nut and a bolt, and also mean I could make the clock thinner. The chunky version is cool for a free standing clock, but a thinner one could potentially be wall mounted.</p>
+<p>Happy with the design for the moment, I soldered up one of the new boards and had my first real look at what the interior of the clock would look like.</p>
 <p align="center">
-<img alt="wordClock2.0_InteriorAssembled" src="http://icchalmers.github.io/images/FinalProject/wordClock2.0_InteriorAssembled.jpg" title="" /></p>
-<p align="center">
+<img alt="wordClock2.0_InteriorAssembled" src="http://icchalmers.github.io/images/FinalProject/wordClock2.0_InteriorAssembled.jpg" title="" />
 <img alt="wordClock2.0_InteriorControlBoardClearance" src="http://icchalmers.github.io/images/FinalProject/wordClock2.0_InteriorControlBoardClearance.jpg" title="" /></p>
+<p>I hope we can all agree that that is a <strong>HELL</strong> of a lot better than v1.0!</p>
+<h2>Pretty Pattern Testing</h2>
+<p>With the hardware basically finished, I extended my rainbow test pattern sketch to use all 122 LEDs. It looks pretty funky if I do say so myself!</p>
 <p align="center">
-<img alt="wordClock2.0_InteriorRGBGrid" src="http://icchalmers.github.io/images/FinalProject/wordClock2.0_InteriorRGBGrid.jpg" title="" /></p>
-<p align="center">
+<img alt="wordClock2.0_InteriorRGBGrid" src="http://icchalmers.github.io/images/FinalProject/wordClock2.0_InteriorRGBGrid.jpg" title="" />
 <img alt="wordClock2.0_InteriorRGBWordMask" src="http://icchalmers.github.io/images/FinalProject/wordClock2.0_InteriorRGBWordMask.jpg" title="" /></p>
+<p>Hardware is hard and software is easy, right?! Well I guess there's only one way to find out - go check out the next update: <a href="http://icchalmers.github.io/wordclock20-update-4-software-and-leaking-light.html">Update 4: Software and Leaking Light</a>.</p>
             </div>
             <!-- /.entry-content -->
     <hr />
