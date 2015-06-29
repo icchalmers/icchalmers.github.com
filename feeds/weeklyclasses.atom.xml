@@ -232,6 +232,125 @@
 &lt;/li&gt;
 &lt;li&gt;Network settings are restored on power loss&lt;/li&gt;
 &lt;li&gt;Time is maintained on loss of network using an RTC (probably a DS3232 or DS1307)&lt;/li&gt;
+&lt;/ul&gt;</summary><category term="weekly classes"></category><category term="final project"></category></entry><entry><title>Week 14: Interface And Application Programming</title><link href="http://icchalmers.github.io/week-14-interface-and-application-programming.html" rel="alternate"></link><updated>2015-05-06T00:00:00+01:00</updated><author><name>Iain Chalmers</name></author><id>tag:icchalmers.github.io,2015-05-06:week-14-interface-and-application-programming.html</id><summary type="html">&lt;h2&gt;This Week's Assignment&lt;/h2&gt;
+&lt;p&gt;The assignment for this week was to write an application that interfaces to an input and/or output device. I was originally going to take the opportunity to try writing a small Android app that interfaces to my &lt;a href="http://icchalmers.github.io/week-13-networking.html"&gt;WiFi Character LCD from last week&lt;/a&gt;. Unfortunately, got about 70% of the way there and then broke the LCD screen...&lt;/p&gt;
+&lt;p&gt;By the time I got round to finishing this assignment off, I was well under way with my final project: WordClock2.0. So, I went back to the beginning and wrote a small Android app to set the colour of the LEDs on the clock over WiFi.&lt;/p&gt;
+&lt;p&gt;Warning in advance, this is a &lt;strong&gt;very&lt;/strong&gt; scrappy piece of programming. It works (most of the time) but there are a lot of improvements to be made!&lt;/p&gt;
+&lt;p&gt;Here's the final result.&lt;/p&gt;
+&lt;p align="center"&gt;
+&lt;img alt="chooseBlue" src="http://icchalmers.github.io/images/Week14/chooseBlue.png" /&gt;&lt;/p&gt;
+&lt;h2&gt;Developing For Android&lt;/h2&gt;
+&lt;p&gt;Android development is completely new to me. I did Java back in first year of uni (almost a decade ago now!), and I honestly can't remember any of it! I'm very much a C programmer these days.&lt;/p&gt;
+&lt;p&gt;I downloaded and installed &lt;a href="http://developer.android.com/tools/studio/index.html"&gt;Android Studio&lt;/a&gt; and used &lt;a href="http://www.raywenderlich.com/78574/android-tutorial-for-beginners-part-1"&gt;this &lt;strong&gt;excellent&lt;/strong&gt; Android development for beginners tutorial&lt;/a&gt; by Darryl Bayliss.&lt;/p&gt;
+&lt;p&gt;Once I had my very own version of "Bookmaster General", I set about making my own app for the word clock.&lt;/p&gt;
+&lt;h2&gt;Functionality&lt;/h2&gt;
+&lt;p&gt;I decided early on to keep the functionality to a minimum to keep life simple. What I wanted was to be able to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Connect to the clock&lt;/li&gt;
+&lt;li&gt;Toggle the green LED on the control PCB&lt;/li&gt;
+&lt;li&gt;Set the colour of the RGB LEDs in the clock&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Even getting this much functionality took me way longer than it should have!&lt;/p&gt;
+&lt;h2&gt;App Layout&lt;/h2&gt;
+&lt;p&gt;Android app layouts are defined in an XML file. I found getting the layout I wanted was easy to get started, but very hard to master! I was expecting this though - just think how many different android devices are out there, and image trying to make a layout so flexible it looks good on them all! Again, to keep things simple, I just aimed to put together something usable on my OnePlus One, and only in portrait mode. Here's my basic layout when you first open the app.&lt;/p&gt;
+&lt;p align="center"&gt;
+&lt;img alt="firstOpened" src="http://icchalmers.github.io/images/Week14/firstOpened.png" /&gt;&lt;/p&gt;
+&lt;p&gt;As an example of the XML layout, the code below defines the very top line of widgets in my app: the "IP" label, the text entry box, and the "&lt;strong&gt;CONNECT&lt;/strong&gt;" button.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nt"&gt;&amp;lt;LinearLayout&lt;/span&gt;
+    &lt;span class="na"&gt;android:layout_width=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;match_parent&amp;quot;&lt;/span&gt;
+    &lt;span class="na"&gt;android:layout_height=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;wrap_content&amp;quot;&lt;/span&gt;
+    &lt;span class="na"&gt;android:orientation=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;horizontal&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+
+    &lt;span class="nt"&gt;&amp;lt;TextView&lt;/span&gt;
+        &lt;span class="na"&gt;android:layout_width=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;wrap_content&amp;quot;&lt;/span&gt;
+        &lt;span class="na"&gt;android:layout_height=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;wrap_content&amp;quot;&lt;/span&gt;
+        &lt;span class="na"&gt;android:text=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;@string/ip_address_label&amp;quot;&lt;/span&gt;
+        &lt;span class="na"&gt;android:paddingRight=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;16dp&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+
+    &lt;span class="nt"&gt;&amp;lt;EditText&lt;/span&gt;
+        &lt;span class="na"&gt;android:layout_width=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;0dp&amp;quot;&lt;/span&gt;
+        &lt;span class="na"&gt;android:layout_weight=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;1&amp;quot;&lt;/span&gt;
+        &lt;span class="na"&gt;android:layout_height=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;wrap_content&amp;quot;&lt;/span&gt;
+        &lt;span class="na"&gt;android:id=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;@+id/edit_ip_address&amp;quot;&lt;/span&gt;
+        &lt;span class="na"&gt;android:hint=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;@string/ip_address_hint&amp;quot;&lt;/span&gt; &lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;Button&lt;/span&gt;
+        &lt;span class="na"&gt;android:layout_width=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;wrap_content&amp;quot;&lt;/span&gt;
+        &lt;span class="na"&gt;android:layout_height=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;wrap_content&amp;quot;&lt;/span&gt;
+        &lt;span class="na"&gt;android:id=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;@+id/connect_disconnect_button&amp;quot;&lt;/span&gt;
+        &lt;span class="na"&gt;android:onClick=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;connectDisconnect&amp;quot;&lt;/span&gt;
+        &lt;span class="na"&gt;android:text=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Connect&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;/&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/LinearLayout&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The &lt;code&gt;android:id&lt;/code&gt; tag is used so that you can find your UI widgets and interact with them in your code. Something I found particularly interesting was the use of the &lt;code&gt;@string/&lt;/code&gt; style of coding. Basically, instead of writing your strings in your code as you use them, the Android convention is to give all your strings and ID and then save them all in another XML file, &lt;code&gt;strings.xml&lt;/code&gt;. The idea is that it becomes easy to nip in and change the text in your app. It's particularly powerful when it comes to translating your app into other languages, as all the strings that need changed are in one place! As you can see from the code snippet above, I was lazy some of the time and just used strings directly in the code.&lt;/p&gt;
+&lt;p&gt;Also, I should mention at this point that I didn't make that colour picking widget myself! I used the &lt;a href="https://github.com/LarsWerkman/HoloColorPicker"&gt;HoloColorPicker library by LarsWerkman&lt;/a&gt;.&lt;/p&gt;
+&lt;h2&gt;Implementing Functionality&lt;/h2&gt;
+&lt;p&gt;I basically used the "Bookmaster General" example from the tutorial I did as a framework for my app. One major problem I had was with syncing between different threads. &lt;/p&gt;
+&lt;p&gt;Basically, whenever you do something that is going to take some time, you spin off a new thread so that your UI thread stays responsive. I used an Async TextHttpResponseHandler to do my network interactions. That was fine, except that I was doing the task calling from a WordClock class I made instead of in my MainActivity. This lead to all kinds of problems with trying to pass around Contexts so that I could make a simple progress bar when the clock was connecting!&lt;/p&gt;
+&lt;p&gt;In the end I ran out of time and gave up. The result is that the first time you hit the &lt;strong&gt;CONNECT&lt;/strong&gt; button, it will essentially fail because the check on &lt;code&gt;device.connected&lt;/code&gt; happens before the asynchronous task finishes. You can see how this looks in a snip of my debug output.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;06-29 22:40:01.750  21882-21882/? D/WordClockConDis﹕ Connection button pressed
+06-29 22:40:01.750  21882-21882/? D/WordClockConDis﹕ Attempting to connect to 192.168.1.21
+06-29 22:40:01.750  21882-21882/? D/WordClockCon﹕ Attempting connection to:  http://192.168.1.21/id
+06-29 22:40:01.754  21882-21882/? E/WordClockConDis﹕ I failed :(
+06-29 22:40:01.891  21882-21882/? D/WordClockCon﹕ Host responded! Response: {&amp;quot;id&amp;quot;: &amp;quot;1&amp;quot;, &amp;quot;name&amp;quot;: &amp;quot;wordclock&amp;quot;, &amp;quot;connected&amp;quot;: true}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;See how it reports a failure, but &lt;em&gt;then&lt;/em&gt; the host responds? Damn annoying!&lt;/p&gt;
+&lt;p&gt;One other problem I noticed was that the colours I was seeing on the LEDs didn't match what was displayed on my phone very well. I managed to get it pretty close by scaling the LED brightness to 1/4 the max value and also doing a simple gamma correction. I just used the algorithm I found &lt;a href="http://rgb-123.com/ws2812-color-output/"&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kd"&gt;private&lt;/span&gt; &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;gammaCorrect&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;rawColour&lt;/span&gt;&lt;span class="o"&gt;){&lt;/span&gt;
+    &lt;span class="c1"&gt;// Used to apply a rudimentary gamma correction to compensate for&lt;/span&gt;
+    &lt;span class="c1"&gt;// the human eye and also limit the LED brightness to 64/255 per channel&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="o"&gt;)(&lt;/span&gt;&lt;span class="mi"&gt;64&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;Math&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;pow&lt;/span&gt;&lt;span class="o"&gt;((&lt;/span&gt;&lt;span class="kt"&gt;double&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;&lt;span class="n"&gt;rawColour&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;255&lt;/span&gt;&lt;span class="o"&gt;,(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="o"&gt;/.&lt;/span&gt;&lt;span class="mi"&gt;45&lt;/span&gt;&lt;span class="o"&gt;)));&lt;/span&gt;
+&lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;App Walkthrough&lt;/h2&gt;
+&lt;p&gt;Here's a quick run through of using the app:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;When the app is first opened, you get the screen shown below. You can't send anything to the clock until you enter the clock's IP address and click "&lt;strong&gt;CONNECT&lt;/strong&gt;".&lt;/p&gt;
+&lt;p&gt;&lt;p align="center" markdown="1"&gt;
+&lt;img alt="firstOpened" src="http://icchalmers.github.io/images/Week14/firstOpened.png" /&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Once you connect, the widgets that send commands to the clock become active.&lt;/p&gt;
+&lt;p&gt;&lt;p align="center" markdown="1"&gt;
+&lt;img alt="connected" src="http://icchalmers.github.io/images/Week14/connected.png" /&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Hitting the "&lt;strong&gt;SET COLOUR&lt;/strong&gt;" button will send the current colour to the clock.&lt;/p&gt;
+&lt;p&gt;&lt;p align="center" markdown="1"&gt;)
+&lt;img alt="setGreen" src="http://icchalmers.github.io/images/Week14/setGreen.jpg" /&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;As you move the slider around, it hows the old colour and the current colour. Colour is set using the hue wheel and saturation/brightness slider.&lt;/p&gt;
+&lt;p&gt;&lt;p align="center" markdown="1"&gt;
+&lt;img alt="chooseNewBlue" src="http://icchalmers.github.io/images/Week14/chooseBlue.png" /&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;When you click "&lt;strong&gt;SET COLOUR&lt;/strong&gt;", the new colour gets sent to the clock and the colour picker widget gets updated to reflect the change.&lt;/p&gt;
+&lt;p&gt;&lt;p align="center" markdown="1"&gt;
+&lt;img alt="setGreen" src="http://icchalmers.github.io/images/Week14/setBlue.png" /&gt;
+&lt;img alt="setGreen" src="http://icchalmers.github.io/images/Week14/setBlue.jpg" /&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The LED toggle button at the top just turns the green LED on the control PCB on or off, and is basically just there as a sanity check while I was developing!&lt;/p&gt;
+&lt;h2&gt;What Needs Work?&lt;/h2&gt;
+&lt;p&gt;Ummmmm...&lt;strong&gt;everything&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;It needs an icon. It needs to do async task thread interaction properly. It needs to adapt to different display and different display orientations. It needs to do service discovery so you just use "http://wordclock.local" instead of having to supply the IP address. It needs a whole host of other things I can't even think of right now.&lt;/p&gt;
+&lt;p&gt;Basically, it works if you don't look too close! It's fine as a proof of concept though...right?!&lt;/p&gt;
+&lt;h2&gt;Get The Files&lt;/h2&gt;
+&lt;p&gt;I wouldn't really recommend looking too close at this code, but if you dare...&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://icchalmers.github.io/binaries/wk14_WordClockApp.zip"&gt;Here&lt;/a&gt; are the source files for my proof of concept word clock app&lt;/li&gt;
 &lt;/ul&gt;</summary><category term="weekly classes"></category><category term="final project"></category></entry><entry><title>Week 13: Networking</title><link href="http://icchalmers.github.io/week-13-networking.html" rel="alternate"></link><updated>2015-04-29T00:00:00+01:00</updated><author><name>Iain Chalmers</name></author><id>tag:icchalmers.github.io,2015-04-29:week-13-networking.html</id><summary type="html">&lt;h2&gt;This Week's Assignment&lt;/h2&gt;
 &lt;p&gt;This week's assignment was to design and build a wired and/or wireless network connecting at least two processors.&lt;/p&gt;
 &lt;p&gt;I decided to do both. I made a wireless module for the &lt;a href="http://icchalmers.github.io/week-11-outputs.html"&gt;character LCD board I made for Outputs week&lt;/a&gt;. The module uses an &lt;a href="http://www.esp8266.com/"&gt;ESP8266 WiFi module&lt;/a&gt; to receive commands from the local network and then writes strings to the LCD board using I2C.&lt;/p&gt;
