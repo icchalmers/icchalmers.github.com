@@ -49,7 +49,7 @@
 &lt;h2&gt;Get The Files&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;&lt;p align="center"&gt;&lt;span style="color:red; font-size:150%"&gt;DO NOT DOWNLOAD THESE FILES!&lt;/span&gt;&lt;/p&gt;&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;They are here &lt;strong&gt;only&lt;/strong&gt; for the purpose of ticking all the boxes for Fab Academy graduation, and are already out of date.&lt;/p&gt;
-&lt;p&gt;Instead, you should get the latest and greatest &lt;a href=""&gt;&lt;strong&gt;from my GitHub&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Instead, you should get the latest and greatest &lt;a href="http://www.github.com/icchalmers/WordClock_v2.0"&gt;&lt;strong&gt;from my GitHub&lt;/strong&gt;&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;&lt;span style="color:red"&gt;YOU HAVE BEEN WARNED!&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://icchalmers.github.io/binaries/WordClock_v2.0_FabArchive.zip"&gt;Here are the old and out of date files...&lt;/a&gt;&lt;/p&gt;</summary><category term="final project"></category></entry><entry><title>WordClock2.0 Update 4: Software and Leaking Light</title><link href="http://icchalmers.github.io/wordclock20-update-4-software-and-leaking-light.html" rel="alternate"></link><updated>2015-06-06T00:00:00+01:00</updated><author><name>Iain Chalmers</name></author><id>tag:icchalmers.github.io,2015-06-06:wordclock20-update-4-software-and-leaking-light.html</id><summary type="html">&lt;h2&gt;ESP8266 With The Arduino IDE&lt;/h2&gt;
 &lt;p&gt;So I managed to get the basic functionality of the word clock working.&lt;/p&gt;
