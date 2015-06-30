@@ -88,15 +88,130 @@
             <div class="entry-content">
                 <div class="panel">
                 </div>
-                <h2>Text to follow...</h2>
+                <h2>ESP8266 With The Arduino IDE</h2>
+<p>So I managed to get the basic functionality of the word clock working.</p>
 <p align="center">
 <img alt="wordClock2.0_NTPTimeWorking" src="http://icchalmers.github.io/images/FinalProject/wordClock2.0_NTPTimeWorking.jpg" title="" /></p>
+<p>I'm using <a href="https://github.com/esp8266/Arduino">the Arduino IDE for the ESP8266</a>, along with the following additional libraries:</p>
+<ul>
+<li><a href="https://github.com/marcoschwartz/aREST"><strong>aRest</strong></a>: for the "RESTful" web interfacing.</li>
+<li><a href="https://github.com/Makuna/NeoPixelBus"><strong>NeoPixelBus</strong></a>: by Makuna. It's based on the <a href="https://github.com/adafruit/Adafruit_NeoPixel">Adafruit NeoPixel library</a>.</li>
+<li><a href="https://github.com/Makuna/Rtc"><strong>Rtc</strong></a>: also by Makuna. For interfacing to the DS2331/DS3232.</li>
+<li><a href="https://github.com/PaulStoffregen/Time"><strong>Time</strong></a>: by the amazing Paul Stoffregen.</li>
+<li><a href="https://github.com/moeur/Arduino_ESP8266"><strong>NTP</strong></a>: by moeur. He basically took the NTP example from Time library and packaged it up.</li>
+</ul>
+<p>Overall I've found the Arduino IDE to be...<em>OK</em>. Like the Arduino IDE for use with an actual Arduino, it's great for getting up and running quickly. Unfortunately, I've also outgrown it rather quickly too. Some of the issues I've had:</p>
+<ol>
+<li>
+<p>The I2C library is a bit bang implementation, and so is the NeoPixelBus WS2812b protocol. I've been getting some funny interactions between the two. As far as I can tell, the I2C library bit banging relies on interrupts, but the WS2812b protocol is very timing sensitive so disables interrupts while it's running. Results? I get really inconsistent I2C for the RTC when also using the WS2812 LEDs. As a result, the RTC isn't active right now.</p>
+</li>
+<li>
+<p>Syncing all the necessary tasks to keep the clock running is pretty cumbersome. I think the clock would be a great project to try my hands at an RTOS (<strong>R</strong>eal <strong>T</strong>ime <strong>O</strong>perating <strong>S</strong>ystem) using the ESP8266 SDK.</p>
+</li>
+<li>
+<p>The IDE is still under heavy development. I couldn't even get ANY I2C working under the 1.6.1-esp8266-1 release. I had to build the IDE from source.</p>
+</li>
+</ol>
+<h2>A Quick Software Overview</h2>
+<p>I won't run through the whole program, but here's the main <code>loop()</code> function.</p>
+<div class="highlight"><pre><span class="kt">void</span> <span class="nf">loop</span><span class="p">()</span> <span class="p">{</span>
+
+  <span class="c1">//mDNS update</span>
+  <span class="n">mdns</span><span class="p">.</span><span class="n">update</span><span class="p">();</span>
+
+  <span class="c1">// Output the time to the LEDs once per minute</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">oldMinutes</span> <span class="o">!=</span> <span class="n">minute</span><span class="p">())</span> <span class="p">{</span>
+      <span class="n">oldMinutes</span> <span class="o">=</span> <span class="n">minute</span><span class="p">();</span>
+      <span class="n">DisplayTime</span><span class="p">(</span><span class="n">hour</span><span class="p">(),</span><span class="n">minute</span><span class="p">());</span>
+  <span class="p">}</span>
+
+  <span class="c1">// Print the time every 10 seconds</span>
+  <span class="k">if</span><span class="p">(</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">oldTime</span> <span class="o">&gt;=</span> <span class="mi">10</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">oldTime</span> <span class="o">=</span> <span class="n">now</span><span class="p">();</span>
+    <span class="n">digitalClockDisplay</span><span class="p">();</span>
+  <span class="p">}</span>
+
+  <span class="c1">// Handle REST calls</span>
+  <span class="n">WiFiClient</span> <span class="n">client</span> <span class="o">=</span> <span class="n">server</span><span class="p">.</span><span class="n">available</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">client</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">client</span><span class="p">.</span><span class="n">available</span><span class="p">()){</span>
+      <span class="n">delay</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="n">rest</span><span class="p">.</span><span class="n">handle</span><span class="p">(</span><span class="n">client</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>The basic steps of the loop are:</p>
+<ol>
+<li>
+<p>Update the mDNS responder. This lets mDNS compatible systems connect to the clock using <code>http://wordclock.local</code>, instead of having to find it's IP address.</p>
+</li>
+<li>
+<p>Check if it's a new minute. If it is, update the LEDs to show the time (and print the time in words to the serial port).</p>
+</li>
+<li>
+<p>Check if 10s have elapsed. If so, print the current time to the serial port.</p>
+</li>
+<li>
+<p>Handle any new clients using the aREST API.</p>
+</li>
+</ol>
+<p>The aREST API exposes a couple of functions to a connected user. They are:</p>
+<ol>
+<li>
+<p><code>http://wordclock.local/</code> will return a list of variables exposed to the API and their current value. For example:</p>
+<div class="highlight"><pre>{&quot;variables&quot;: {&quot;red&quot;: 3, &quot;green&quot;: 64, &quot;blue&quot;: 49},
+</pre></div>
+
+
+<p>These variables can then be accessed on their own at any time. For example with <code>http://wordclock.local/red</code></p>
+</li>
+<li>
+<p><code>http://wordclock.local/id</code> will return some information about the clock. For example:</p>
+<div class="highlight"><pre>{&quot;id&quot;: &quot;1&quot;, &quot;name&quot;: &quot;wordclock&quot;, &quot;connected&quot;: true}
+</pre></div>
+
+
+</li>
+<li>
+<p><code>http://wordclock.local/led?params=</code> can be used to set/query the state of the LED on the control PCB. Sending <code>on</code> as the parameter turns the LED on. Sending <code>off</code> turns the LED off. Sending anything else will return the current state of the LED</p>
+</li>
+<li>
+<p><code>http://wordclock.local/rgb?params=</code> can be used to set the colour of the RGB LEDs. The format is <code>R,G,B</code>, where <code>R</code>, <code>G</code>, and <code>B</code> are values from 0 to 255 for that colour. Note that there is not sanity checking of the input, so be careful!</p>
+</li>
+</ol>
+<p>aREST also gives direct control over pins, which I hate and can't easily turn off. In a future version of the code I plan to get rid of aREST and do it myself (or find a better library).</p>
+<h2>Current Problems</h2>
+<p>I've already mention the I2C/RTC problem. Some other bits of the code that need worked on are:</p>
+<ol>
+<li>
+<p>If the network goes down, the NTP check seems to hang the code somewhere. The only option at that point is a hard reset.</p>
+</li>
+<li>
+<p>The WiFi SSID and password are hard coded.</p>
+</li>
+<li>
+<p>Temperature based throttling of LED brightness using the temperature reading from the DS3232.</p>
+</li>
+<li>
+<p>The time zone is currently hard coded, and the NTP library does DST compensation by default, but using the American dates.</p>
+</li>
+</ol>
+<p>Overall though, I've met all of my "must haves" that I specified in <a href="http://icchalmers.github.io/week-15-applications-and-implications-aka-pick-a-final-project.html">Week 15: Applications and Implications (AKA Pick A Final Project)</a>. I've also got a good start on some of the "nice to haves". I have a basic android app for setting the LED colour, and in fact the ESP8266 will remember the last network it connected to my default!</p>
+<h2>How Bright? Too Bright!</h2>
+<p>One annoying problem I've noticed is light leakage. I used some easier-to-laser poplar plywood to cut the internal grid, and it turns out it's not particularly opaque with the bright LEDs!</p>
 <p align="center">
 <img alt="wordClock2.0_GridLeak" src="http://icchalmers.github.io/images/FinalProject/wordClock2.0_GridLeak.jpg" title="" /></p>
+<p>To try and mitigate the leakage, I took the grid apart and spray painted it white.</p>
 <p align="center">
-<img alt="wordClock2.0_GridLeak_Painting" src="http://icchalmers.github.io/images/FinalProject/wordClock2.0_GridLeak_Painting.jpg" title="" /></p>
-<p align="center">
+<img alt="wordClock2.0_GridLeak_Painting" src="http://icchalmers.github.io/images/FinalProject/wordClock2.0_GridLeak_Painting.jpg" title="" />
 <img alt="wordClock2.0_GridLeak_PaintedGrid" src="http://icchalmers.github.io/images/FinalProject/wordClock2.0_GridLeak_PaintedGrid.jpg" title="" /></p>
+<p>The result? Actually, it hardly made any difference at all! Instead, it's much easier to just limit the LED brightness. A white level of 60,60,60 it plenty bright in even a well lit room, and significantly reduces the amount of light leaking to surrounding letters. It should also help with reducing temperature build up inside the enclosure. </p>
+<p>In the future, I'll make sure and stick to denser birch plywood for the exterior <strong>and</strong> interior of the clock.</p>
+<h2>But For Now...</h2>
+<p>...I'm basically done! The clock is <strong>far</strong> from finished, but it's more than enough for Fab Academy. All the future work will be done <a href="github.com/icchalmers/WordClock_v2.0">on my GitHub for the project</a>.</p>
             </div>
             <!-- /.entry-content -->
     <hr />

@@ -1,13 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Iain Chalmers</title><link href="http://icchalmers.github.io/" rel="alternate"></link><link href="http://icchalmers.github.io/feeds/all.atom.xml" rel="self"></link><id>http://icchalmers.github.io/</id><updated>2015-06-06T00:00:00+01:00</updated><entry><title>WordClock2.0 Update 4: Software and Leaking Light</title><link href="http://icchalmers.github.io/wordclock20-update-4-software-and-leaking-light.html" rel="alternate"></link><updated>2015-06-06T00:00:00+01:00</updated><author><name>Iain Chalmers</name></author><id>tag:icchalmers.github.io,2015-06-06:wordclock20-update-4-software-and-leaking-light.html</id><summary type="html">&lt;h2&gt;Text to follow...&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Iain Chalmers</title><link href="http://icchalmers.github.io/" rel="alternate"></link><link href="http://icchalmers.github.io/feeds/all.atom.xml" rel="self"></link><id>http://icchalmers.github.io/</id><updated>2015-06-06T00:00:00+01:00</updated><entry><title>WordClock2.0 Update 4: Software and Leaking Light</title><link href="http://icchalmers.github.io/wordclock20-update-4-software-and-leaking-light.html" rel="alternate"></link><updated>2015-06-06T00:00:00+01:00</updated><author><name>Iain Chalmers</name></author><id>tag:icchalmers.github.io,2015-06-06:wordclock20-update-4-software-and-leaking-light.html</id><summary type="html">&lt;h2&gt;ESP8266 With The Arduino IDE&lt;/h2&gt;
+&lt;p&gt;So I managed to get the basic functionality of the word clock working.&lt;/p&gt;
 &lt;p align="center"&gt;
 &lt;img alt="wordClock2.0_NTPTimeWorking" src="http://icchalmers.github.io/images/FinalProject/wordClock2.0_NTPTimeWorking.jpg" title="" /&gt;&lt;/p&gt;
+&lt;p&gt;I'm using &lt;a href="https://github.com/esp8266/Arduino"&gt;the Arduino IDE for the ESP8266&lt;/a&gt;, along with the following additional libraries:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/marcoschwartz/aREST"&gt;&lt;strong&gt;aRest&lt;/strong&gt;&lt;/a&gt;: for the "RESTful" web interfacing.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/Makuna/NeoPixelBus"&gt;&lt;strong&gt;NeoPixelBus&lt;/strong&gt;&lt;/a&gt;: by Makuna. It's based on the &lt;a href="https://github.com/adafruit/Adafruit_NeoPixel"&gt;Adafruit NeoPixel library&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/Makuna/Rtc"&gt;&lt;strong&gt;Rtc&lt;/strong&gt;&lt;/a&gt;: also by Makuna. For interfacing to the DS2331/DS3232.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/PaulStoffregen/Time"&gt;&lt;strong&gt;Time&lt;/strong&gt;&lt;/a&gt;: by the amazing Paul Stoffregen.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/moeur/Arduino_ESP8266"&gt;&lt;strong&gt;NTP&lt;/strong&gt;&lt;/a&gt;: by moeur. He basically took the NTP example from Time library and packaged it up.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Overall I've found the Arduino IDE to be...&lt;em&gt;OK&lt;/em&gt;. Like the Arduino IDE for use with an actual Arduino, it's great for getting up and running quickly. Unfortunately, I've also outgrown it rather quickly too. Some of the issues I've had:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;The I2C library is a bit bang implementation, and so is the NeoPixelBus WS2812b protocol. I've been getting some funny interactions between the two. As far as I can tell, the I2C library bit banging relies on interrupts, but the WS2812b protocol is very timing sensitive so disables interrupts while it's running. Results? I get really inconsistent I2C for the RTC when also using the WS2812 LEDs. As a result, the RTC isn't active right now.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Syncing all the necessary tasks to keep the clock running is pretty cumbersome. I think the clock would be a great project to try my hands at an RTOS (&lt;strong&gt;R&lt;/strong&gt;eal &lt;strong&gt;T&lt;/strong&gt;ime &lt;strong&gt;O&lt;/strong&gt;perating &lt;strong&gt;S&lt;/strong&gt;ystem) using the ESP8266 SDK.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The IDE is still under heavy development. I couldn't even get ANY I2C working under the 1.6.1-esp8266-1 release. I had to build the IDE from source.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;A Quick Software Overview&lt;/h2&gt;
+&lt;p&gt;I won't run through the whole program, but here's the main &lt;code&gt;loop()&lt;/code&gt; function.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;loop&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+
+  &lt;span class="c1"&gt;//mDNS update&lt;/span&gt;
+  &lt;span class="n"&gt;mdns&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;update&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+
+  &lt;span class="c1"&gt;// Output the time to the LEDs once per minute&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;oldMinutes&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="n"&gt;minute&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="n"&gt;oldMinutes&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;minute&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+      &lt;span class="n"&gt;DisplayTime&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;hour&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt;&lt;span class="n"&gt;minute&lt;/span&gt;&lt;span class="p"&gt;());&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+
+  &lt;span class="c1"&gt;// Print the time every 10 seconds&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;now&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;oldTime&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="n"&gt;oldTime&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;now&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+    &lt;span class="n"&gt;digitalClockDisplay&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+
+  &lt;span class="c1"&gt;// Handle REST calls&lt;/span&gt;
+  &lt;span class="n"&gt;WiFiClient&lt;/span&gt; &lt;span class="n"&gt;client&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;server&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;available&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;client&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;while&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;client&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;available&lt;/span&gt;&lt;span class="p"&gt;()){&lt;/span&gt;
+      &lt;span class="n"&gt;delay&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="n"&gt;rest&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;handle&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;client&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The basic steps of the loop are:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Update the mDNS responder. This lets mDNS compatible systems connect to the clock using &lt;code&gt;http://wordclock.local&lt;/code&gt;, instead of having to find it's IP address.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Check if it's a new minute. If it is, update the LEDs to show the time (and print the time in words to the serial port).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Check if 10s have elapsed. If so, print the current time to the serial port.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Handle any new clients using the aREST API.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The aREST API exposes a couple of functions to a connected user. They are:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;http://wordclock.local/&lt;/code&gt; will return a list of variables exposed to the API and their current value. For example:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;{&amp;quot;variables&amp;quot;: {&amp;quot;red&amp;quot;: 3, &amp;quot;green&amp;quot;: 64, &amp;quot;blue&amp;quot;: 49},
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;These variables can then be accessed on their own at any time. For example with &lt;code&gt;http://wordclock.local/red&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;http://wordclock.local/id&lt;/code&gt; will return some information about the clock. For example:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;{&amp;quot;id&amp;quot;: &amp;quot;1&amp;quot;, &amp;quot;name&amp;quot;: &amp;quot;wordclock&amp;quot;, &amp;quot;connected&amp;quot;: true}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;http://wordclock.local/led?params=&lt;/code&gt; can be used to set/query the state of the LED on the control PCB. Sending &lt;code&gt;on&lt;/code&gt; as the parameter turns the LED on. Sending &lt;code&gt;off&lt;/code&gt; turns the LED off. Sending anything else will return the current state of the LED&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;http://wordclock.local/rgb?params=&lt;/code&gt; can be used to set the colour of the RGB LEDs. The format is &lt;code&gt;R,G,B&lt;/code&gt;, where &lt;code&gt;R&lt;/code&gt;, &lt;code&gt;G&lt;/code&gt;, and &lt;code&gt;B&lt;/code&gt; are values from 0 to 255 for that colour. Note that there is not sanity checking of the input, so be careful!&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;aREST also gives direct control over pins, which I hate and can't easily turn off. In a future version of the code I plan to get rid of aREST and do it myself (or find a better library).&lt;/p&gt;
+&lt;h2&gt;Current Problems&lt;/h2&gt;
+&lt;p&gt;I've already mention the I2C/RTC problem. Some other bits of the code that need worked on are:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;If the network goes down, the NTP check seems to hang the code somewhere. The only option at that point is a hard reset.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The WiFi SSID and password are hard coded.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Temperature based throttling of LED brightness using the temperature reading from the DS3232.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The time zone is currently hard coded, and the NTP library does DST compensation by default, but using the American dates.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Overall though, I've met all of my "must haves" that I specified in &lt;a href="http://icchalmers.github.io/week-15-applications-and-implications-aka-pick-a-final-project.html"&gt;Week 15: Applications and Implications (AKA Pick A Final Project)&lt;/a&gt;. I've also got a good start on some of the "nice to haves". I have a basic android app for setting the LED colour, and in fact the ESP8266 will remember the last network it connected to my default!&lt;/p&gt;
+&lt;h2&gt;How Bright? Too Bright!&lt;/h2&gt;
+&lt;p&gt;One annoying problem I've noticed is light leakage. I used some easier-to-laser poplar plywood to cut the internal grid, and it turns out it's not particularly opaque with the bright LEDs!&lt;/p&gt;
 &lt;p align="center"&gt;
 &lt;img alt="wordClock2.0_GridLeak" src="http://icchalmers.github.io/images/FinalProject/wordClock2.0_GridLeak.jpg" title="" /&gt;&lt;/p&gt;
+&lt;p&gt;To try and mitigate the leakage, I took the grid apart and spray painted it white.&lt;/p&gt;
 &lt;p align="center"&gt;
-&lt;img alt="wordClock2.0_GridLeak_Painting" src="http://icchalmers.github.io/images/FinalProject/wordClock2.0_GridLeak_Painting.jpg" title="" /&gt;&lt;/p&gt;
-&lt;p align="center"&gt;
-&lt;img alt="wordClock2.0_GridLeak_PaintedGrid" src="http://icchalmers.github.io/images/FinalProject/wordClock2.0_GridLeak_PaintedGrid.jpg" title="" /&gt;&lt;/p&gt;</summary><category term="final project"></category></entry><entry><title>WordClock2.0 Update 3: Power Distribution</title><link href="http://icchalmers.github.io/wordclock20-update-3-power-distribution.html" rel="alternate"></link><updated>2015-06-05T00:00:00+01:00</updated><author><name>Iain Chalmers</name></author><id>tag:icchalmers.github.io,2015-06-05:wordclock20-update-3-power-distribution.html</id><summary type="html">&lt;h2&gt;Wires Wires Everywhere&lt;/h2&gt;
+&lt;img alt="wordClock2.0_GridLeak_Painting" src="http://icchalmers.github.io/images/FinalProject/wordClock2.0_GridLeak_Painting.jpg" title="" /&gt;
+&lt;img alt="wordClock2.0_GridLeak_PaintedGrid" src="http://icchalmers.github.io/images/FinalProject/wordClock2.0_GridLeak_PaintedGrid.jpg" title="" /&gt;&lt;/p&gt;
+&lt;p&gt;The result? Actually, it hardly made any difference at all! Instead, it's much easier to just limit the LED brightness. A white level of 60,60,60 it plenty bright in even a well lit room, and significantly reduces the amount of light leaking to surrounding letters. It should also help with reducing temperature build up inside the enclosure. &lt;/p&gt;
+&lt;p&gt;In the future, I'll make sure and stick to denser birch plywood for the exterior &lt;strong&gt;and&lt;/strong&gt; interior of the clock.&lt;/p&gt;
+&lt;h2&gt;But For Now...&lt;/h2&gt;
+&lt;p&gt;...I'm basically done! The clock is &lt;strong&gt;far&lt;/strong&gt; from finished, but it's more than enough for Fab Academy. All the future work will be done &lt;a href="github.com/icchalmers/WordClock_v2.0"&gt;on my GitHub for the project&lt;/a&gt;.&lt;/p&gt;</summary><category term="final project"></category></entry><entry><title>WordClock2.0 Update 3: Power Distribution</title><link href="http://icchalmers.github.io/wordclock20-update-3-power-distribution.html" rel="alternate"></link><updated>2015-06-05T00:00:00+01:00</updated><author><name>Iain Chalmers</name></author><id>tag:icchalmers.github.io,2015-06-05:wordclock20-update-3-power-distribution.html</id><summary type="html">&lt;h2&gt;Wires Wires Everywhere&lt;/h2&gt;
 &lt;p&gt;This is what the inside of WordClock1.0 looked like:&lt;/p&gt;
 &lt;p align="center"&gt;
 &lt;img alt="wordClock1.0_internal" src="http://icchalmers.github.io/images/FinalProject/wordClock1.0_internal.jpg" title="" /&gt;&lt;/p&gt;
